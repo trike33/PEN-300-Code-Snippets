@@ -1,0 +1,26 @@
+PrintSpooferNet.exe:
+1st We create a new named pipe server and wait for a connection to be made, using CreateNamedPipe API and ConnectNamedPipe to wait until a connection is made. 
+
+2nd We force an authentication from the system leveraging the print spooler service using SpoolSample user to our named pipe server(here we recieve the SYSTEM token)
+
+3rd We take the SID of the connection(to validate that an admin account has authenticated to our named pipe server)
+
+4th We use the DuplicateTokenEx API to convert the impersonation token to a primary token. Then we use this token with CreateProcessWithTokenW API to create a new process in the system context.
+
+
+
+SpoolSample:
+The potential for abuse comes from the RpcOpenPrinter and RpcRemoteFindFirstPrinterChangeNotification functions. RpcOpenPrinter allows us to retrieve a handle for the printer server, which is used as an argument to the second API.
+
+RpcRemoteFindFirstPrinterChangeNotification essentially monitors printer object changes and sends change notifications to print clients.
+
+Once again, this change notification requires the print spooler to access the print client. If we ensure that the print client is our named pipe, it will obtain a SYSTEM token that we can impersonate.
+
+If both servers are the same, we need to do this:
+
+Not locally(appsrv01\test is our previously created named pipe server): SpoolSample.exe appsrv01 appsrv01\test             
+
+Locally(\\.\pipe\test\pipe\spoolss is our previously created named pipe server): SpoolSample.exe appsrv01 appsrv01/pipe/test     -> appsrv01/pipe/test gets converted to \\.\appsrv01\test\pipe\spoolss
+
+¿Why we need to use SpoolSample?
+Because sadly, unlike regular Win32 APIs, MS-RPRN APIs can not be called directly. Print spooler functionality resides in the unmanaged RpcRT4.dll library and is called through the proxy function NdrClientCall2,29 which uses a binary format to pass and invoke underlying functions.
