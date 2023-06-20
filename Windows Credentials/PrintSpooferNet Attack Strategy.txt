@@ -1,4 +1,5 @@
 PrintSpooferNet.exe:
+(PrintSpooferNet.exe is the compiled version of the PrintSpooferNet.cs provided in this directory)
 1st We create a new named pipe server and wait for a connection to be made, using CreateNamedPipe API and ConnectNamedPipe to wait until a connection is made. 
 
 2nd We force an authentication from the system leveraging the print spooler service using SpoolSample user to our named pipe server(here we recieve the SYSTEM token)
