@@ -10,6 +10,7 @@ PrintSpooferNet.exe:
 
 
 SpoolSample:
+(grab SpoolSample from its github repository, https://github.com/leechristensen/SpoolSample)
 The potential for abuse comes from the RpcOpenPrinter and RpcRemoteFindFirstPrinterChangeNotification functions. RpcOpenPrinter allows us to retrieve a handle for the printer server, which is used as an argument to the second API.
 
 RpcRemoteFindFirstPrinterChangeNotification essentially monitors printer object changes and sends change notifications to print clients.
