@@ -1,0 +1,3 @@
+Public key stored inside the ~/.ssh/id_rsa.pub file
+Private key stored under the ~/.ssh/ directory
+SSH keys that can be used for logging into the user account for which the file is configured -> ~/.ssh/authorized_keys
