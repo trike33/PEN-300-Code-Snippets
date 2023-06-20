@@ -1,6 +1,7 @@
 **CONNECTION AND AUTHENTICATION TO THE SERVER:**
 
 Generally the easiest ones to use are impacket-mssqlclient(to connect from linux) and the sqlcmd utility(to connect from windows). When using impacket-mssqlclient with active directory domain authentication don't forget the "-windows-auth" flag!
+
 IMPORTANT: Mainly all commands specified in this document are meant to be thrown through an impacket-mssqlclient or sqlcmd shell.
 
 **UNC PATH Injection and Hash Relaying:**
