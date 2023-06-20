@@ -1,0 +1,1 @@
+You can search through the internet to exploit your specific ACL you have. Here is a good link for it: https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces
