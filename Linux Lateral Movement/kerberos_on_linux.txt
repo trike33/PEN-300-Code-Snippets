@@ -1,12 +1,10 @@
-ssh administrator@corp1.com@linuxvictim
 env | grep "KRB5CCNAME"
 kinit -> to request a TGT
 klist -> to list all the tickets, TGT and TGS
 kdestroy -> to destroy tickets
 kvno-> to request TGS, usage example: kvno MSSQLSvc/DC01.corp1.com:1433
-To get a list of all avalable SPNs(note that we must have a TGT): ldapsearch -Y GSSAPI -H ldap://dc01.corp1.com -D "Administrator@CORP1.COM" -W -b "dc=corp1,dc=com" "servicePrincipalName=*" servicePrincipalName
 
-kinit administrator@CORP1.COM -k -t /tmp/administrator.keytab   -> using a keytab file to request a TGT
+kinit trike@CONTOSO.COM -k -t /tmp/trike.keytab   -> using a keytab file to request a TGT
 
 kinit -R -> renewing a ticket
 
