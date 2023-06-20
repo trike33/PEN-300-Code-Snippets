@@ -1,3 +1,4 @@
+THE TECHNIQUE EXPLAINED HERE IS A WAY TO LEVERAGE THE SeImpersonatePrivilege
 PrintSpooferNet.exe:
 (PrintSpooferNet.exe is the compiled version of the PrintSpooferNet.cs provided in this directory)
 1st We create a new named pipe server and wait for a connection to be made, using CreateNamedPipe API and ConnectNamedPipe to wait until a connection is made. 
