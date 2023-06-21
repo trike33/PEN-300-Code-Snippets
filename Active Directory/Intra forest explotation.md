@@ -1,4 +1,6 @@
-Bidirecctional trust between the prod.contoso.com and the contoso.com domain
+**INTRA-FOREST EXPLOTATION CONCEPT ACLARATION:**
+
+By saying intra-forest explotation I mean owning the others domain in your current forest. For example the contoso.com is the root domain of the contoso.com forest, however the prod.contoso.com is a subdomain in the contoso.com forest, and so on. As it's logical, trust exists between domains(and also between forests). In our lab, exists a bidirecctional trust between the prod.contoso.com and the contoso.com domain(also known as parent-child trust).
 
 **EXTRA SIDS:**
 
