@@ -27,7 +27,7 @@ namespace lat
             if (args.Length == 0)
             {
                 Console.WriteLine("[!] Usage: .\\lat.exe target payload");
-                Console.WriteLine("[!] Example: .\\lat.exe file02 \"net user ankylo Ankylo33_$! /add /y\"");
+                Console.WriteLine("[!] Example: .\\lat.exe file02 \"net user trike Trike33_$! /add /y\"");
             	return;
             }
 
