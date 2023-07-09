@@ -24,3 +24,5 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 **Configuring PSRemoting & more PSRemoting:** https://pentestn00b.wordpress.com/2016/08/22/powershell-psremoting-pwnage/
 
 **Weaponization of this techniques:** https://github.com/0xthirteen/SharpMove
+
+**RDP:** https://github.com/0xthirteen/SharpRDP
