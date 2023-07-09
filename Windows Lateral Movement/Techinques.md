@@ -21,4 +21,6 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 
 **PSRemoting:(Relies on WinRM and WinRS)** https://pentestlab.blog/2018/05/15/lateral-movement-winrm/  -> this link provides lots of alternatives
 
+**Configuring PSRemoting & more PSRemoting:** https://pentestn00b.wordpress.com/2016/08/22/powershell-psremoting-pwnage/
+
 **Weaponization of this techniques:** https://github.com/0xthirteen/SharpMove
