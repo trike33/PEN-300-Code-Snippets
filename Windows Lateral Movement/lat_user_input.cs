@@ -1,3 +1,4 @@
+//Custom way of performing PsExec(note that this script does not support the use of plaintext credentials, you need a TGS or something like that)
 using System;
 using System.Collections.Generic;
 using System.Linq;
