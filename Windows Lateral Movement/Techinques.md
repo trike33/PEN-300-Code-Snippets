@@ -29,13 +29,15 @@ You can use this command to execute a new process on localhost:
 PS C:\> Invoke-WmiMethod -Path Win32_process -Name create -ArgumentList "calc.exe" -Verbose
 ```
 
-However you can use/adapt this command to execute a new process in a remote machine:
+However you can use/adapt this command to execute a new process in a remote machine(to do so, the firewall must be configured to allow remote WMI access):
 
 ```
-PS C:\> Invoke-WmiMethod -ComputerName $machine -Credential $cred -Impersonation 3 -Path Win32_process -Name create -ArgumentList "powershell.exe -ExecutionPolicy Unrestricted -File C:\Windows_Updates.ps1" -Verbose
+PS C:\> Invoke-WmiMethod -Class Win32_Process -Name Create -ArgumentList 'notepad.exe' -ComputerName 192.168.72.134 -Credential 'WIN-B85AAA7ST4U\Administrator' 
 ```
 
-More WMI exec: https://www.trustedsec.com/blog/no_psexec_needed/    &   For more theory explanation refer to [here](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf).
+More WMI exec: https://www.trustedsec.com/blog/no_psexec_needed/    &   
+
+Deep to WMI [here](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf).
 
 Python implementation(empire) of this WMI technique: https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_wmi.py
 
