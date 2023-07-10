@@ -1,5 +1,9 @@
 **PsExec:** https://www.ired.team/offensive-security/lateral-movement/lateral-movement-with-psexec
 
+PsExec is also available from SysInternals, however it will create the "PSExecSVC" service which will trigger the AV.(https://learn.microsoft.com/en-us/sysinternals/downloads/psexec)
+
+You can also try the python implementation from the impacket suite(note that to run this script you need to install the full impacket suite, since it imports modules from the impacket suite): https://github.com/fortra/impacket/blob/master/examples/psexec.py
+
 Alternatively to the techinque explained in this link, you can also perform psexec from metasploit using these modules:
 (note that using metasploit modules will likely trigger any AV/EDR/firewall)
 
@@ -15,9 +19,21 @@ https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_m
 
 If you want to perform more evasion you can create a custom EXE and specify it in the "Command" parameter and then specify a legitimate Windows service like SensorService on the "ServiceName" property.
 
-If you want to be even stealthier you can use the "lat_user_input.cs" script provided in this repository.
+If you want to be even stealthier you can use the [lat_user_input.cs](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Lateral%20Movement/lat_user_input.cs) script provided in this repository.
 
 **WMI(can use both DCOM and WinRM transport protocols):** https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
+
+You can use this command to execute a new process on localhost:
+
+```
+PS C:\> Invoke-WmiMethod -Path Win32_process -Name create -ArgumentList "calc.exe" -Verbose
+```
+
+However you can use/adapt this command to execute a new process in a remote machine:
+
+```
+PS C:\> Invoke-WmiMethod -ComputerName $machine -Credential $cred -Impersonation 3 -Path Win32_process -Name create -ArgumentList "powershell.exe -ExecutionPolicy Unrestricted -File C:\Windows_Updates.ps1" -Verbose
+```
 
 More WMI exec: https://www.trustedsec.com/blog/no_psexec_needed/    &   For more theory explanation refer to [here](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf).
 
