@@ -15,9 +15,15 @@ https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_m
 
 If you want to perform more evasion you can create a custom EXE and specify it in the "Command" parameter and then specify a legitimate Windows service like SensorService on the "ServiceName" property.
 
-**WMI:** https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
+If you want to be even stealthier you can use the "lat_user_input.cs" script provided in this repository.
 
-**DCOM( Windows Firewall will block this technique by default.):** https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/
+**WMI(requires port 135 TCP and RPC):** https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
+
+More WMI exec: https://www.trustedsec.com/blog/no_psexec_needed/
+
+Python implementation(empire) of this WMI technique: https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_wmi.py
+
+**DCOM(Windows Firewall will block this technique by default.):** https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/
 
 **PSRemoting:(Relies on WinRM and WinRS)** https://pentestlab.blog/2018/05/15/lateral-movement-winrm/  -> this link provides lots of alternatives
 
@@ -25,6 +31,12 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 
 You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/invoke-wmimethod.html), which "Invoke-WmiMethod" works under Windows Management Instrumentation(WMI). As an alternative you can use [Invoke-CimMethod](https://ss64.com/ps/invoke-cimmethod.html), however "Invoke-CimMethod" works under WinRM but if you want to enable WinRM, "Invoke-WmMethod" is a better alternative than "Invoke-CimMethod".
 
+Python implementation of [Invoke-PSRemoting](https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_psremoting.py).
+
 **Weaponization of this techniques:** https://github.com/0xthirteen/SharpMove
 
 **RDP:** https://github.com/0xthirteen/SharpRDP
+
+**More lateral movement techniques + explanation:**
+
+https://blog.harmj0y.net/empire/expanding-your-empire/
