@@ -17,9 +17,9 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 
 If you want to be even stealthier you can use the "lat_user_input.cs" script provided in this repository.
 
-**WMI(requires port 135 TCP and RPC):** https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
+**WMI(can use both DCOM and WinRM transport protocols):** https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
 
-More WMI exec: https://www.trustedsec.com/blog/no_psexec_needed/
+More WMI exec: https://www.trustedsec.com/blog/no_psexec_needed/    &   For more theory explanation refer to [here](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf).
 
 Python implementation(empire) of this WMI technique: https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_wmi.py
 
