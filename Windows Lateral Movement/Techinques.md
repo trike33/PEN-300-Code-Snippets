@@ -17,11 +17,13 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 
 **WMI:** https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
 
-**DCOM:** https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/
+**DCOM( Windows Firewall will block this technique by default.):** https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/
 
 **PSRemoting:(Relies on WinRM and WinRS)** https://pentestlab.blog/2018/05/15/lateral-movement-winrm/  -> this link provides lots of alternatives
 
-**Configuring PSRemoting & more PSRemoting:** https://pentestn00b.wordpress.com/2016/08/22/powershell-psremoting-pwnage/
+**Configuring PSRemoting(remotely enabling WinRM) & more PSRemoting:** https://pentestn00b.wordpress.com/2016/08/22/powershell-psremoting-pwnage/
+
+You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/invoke-wmimethod.html), which "Invoke-WmiMethod" works under Windows Management Instrumentation(WMI). As an alternative you can use [Invoke-CimMethod](https://ss64.com/ps/invoke-cimmethod.html), however "Invoke-CimMethod" works under WinRM but if you want to enable WinRM, "Invoke-WmMethod" is a better alternative than "Invoke-CimMethod".
 
 **Weaponization of this techniques:** https://github.com/0xthirteen/SharpMove
 
