@@ -29,7 +29,7 @@ Python implementation(empire) of this WMI technique: https://github.com/EmpirePr
 
 **Configuring PSRemoting(remotely enabling WinRM) & more PSRemoting:** https://pentestn00b.wordpress.com/2016/08/22/powershell-psremoting-pwnage/
 
-You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/invoke-wmimethod.html), which "Invoke-WmiMethod" works under Windows Management Instrumentation(WMI). As an alternative you can use [Invoke-CimMethod](https://ss64.com/ps/invoke-cimmethod.html), however "Invoke-CimMethod" works under WinRM but if you want to enable WinRM, "Invoke-WmMethod" is a better alternative than "Invoke-CimMethod".
+You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/invoke-wmimethod.html), which "Invoke-WmiMethod" works under Windows Management Instrumentation(WMI), therefore uses only DCOM. As an alternative you can use [Invoke-CimMethod](https://ss64.com/ps/invoke-cimmethod.html), which works under both DCOM and WinRM.
 
 Python implementation of [Invoke-PSRemoting](https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_psremoting.py).
 
