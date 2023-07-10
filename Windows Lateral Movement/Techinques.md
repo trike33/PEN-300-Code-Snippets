@@ -51,10 +51,10 @@ You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/i
 
 Python implementation of [Invoke-PSRemoting](https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_psremoting.py).
 
-**Weaponization of this techniques:** https://github.com/0xthirteen/SharpMove
+**Weaponization of this techniques(C# script):** https://github.com/0xthirteen/SharpMove
 
-**RDP:** https://github.com/0xthirteen/SharpRDP
+**RDP(C# Script):** https://github.com/0xthirteen/SharpRDP
 
-**More lateral movement techniques + explanation:**
+**Review of lateral movement techniques + explanation:**
 
 https://blog.harmj0y.net/empire/expanding-your-empire/
