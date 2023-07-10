@@ -22,6 +22,7 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 
 **WMI(can use both DCOM and WinRM transport protocols):** 
 
+(DCOM comunications must be available meaning that the port 135 TCP must be open, in addtion to being able to communicate thourgh RPC via port 135 TCP)
 1. Using wmic.exe -> https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
 
 2. Using powershell:
