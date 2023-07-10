@@ -29,7 +29,7 @@ You can use this command to execute a new process on localhost:
 PS C:\> Invoke-WmiMethod -Path Win32_process -Name create -ArgumentList "calc.exe" -Verbose
 ```
 
-However you can use/adapt this command to execute a new process in a remote machine(to do so, the firewall must be configured to allow remote WMI access):
+However you can use/adapt this command to execute a new process in a remote machine(to do so, the firewall must be configured to allow remote WMI access, in a nutshell port 135 TCP needs to be open):
 
 ```
 PS C:\> Invoke-WmiMethod -Class Win32_Process -Name Create -ArgumentList 'notepad.exe' -ComputerName 192.168.72.134 -Credential 'WIN-B85AAA7ST4U\Administrator' 
