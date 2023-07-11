@@ -1,4 +1,5 @@
 env | grep "KRB5CCNAME"
+export KRB5CCNAME=/krb5cc_minenow
 kinit -> to request a TGT
 klist -> to list all the tickets, TGT and TGS
 kdestroy -> to destroy tickets
@@ -9,3 +10,5 @@ kinit trike@CONTOSO.COM -k -t /tmp/trike.keytab   -> using a keytab file to requ
 kinit -R -> renewing a ticket
 
 kerberos configuration file -> /etc/krb5.conf     -> to reconfigure this file easily: dpkg-reconfigure krb5-config
+
+scp user@target:/home/user/example.txt
