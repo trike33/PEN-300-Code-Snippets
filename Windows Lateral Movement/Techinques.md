@@ -18,7 +18,9 @@ auxiliary/scanner/smb/psexec_loggedin_users -> lists all logged on users by quer
 https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-PsExec.ps1
 If you want to perform more evasion you can create a custom EXE and specify it in the "Command" parameter and then specify a legitimate Windows service like SensorService on the "ServiceName" property.
 
-5. If you want to be even stealthier you can use the [lat_user_input.cs](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Lateral%20Movement/lat_user_input.cs) script provided in this repository.
+5. If you want to be even stealthier you can use the [lat_user_input.cs](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Lateral%20Movement/lat_user_input.cs) script provided in this repository.(This is a great script since it won't trigger much signatures). If you want to use this script with a username-password pair, you will first need to use "sekurlsa::pth /user:Administrator /domain:contoso.com /ntlm:<ntlm_hash>" from mimikatz to execute the "lat_user_input.exe".
+
+6. You can go even further reviewing this execellent repository about fileless lateral movement: https://github.com/Mr-Un1k0d3r/SCShell
 
 **WMI(can use both DCOM and WinRM transport protocols):** 
 
