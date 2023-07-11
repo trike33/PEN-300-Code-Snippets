@@ -2,7 +2,7 @@
 
 1. PsExec is also available from SysInternals, however it will create the "PSExecSVC" service which will trigger the AV.(https://learn.microsoft.com/en-us/sysinternals/downloads/psexec)
 
-2. You can also try the python implementation from the impacket suite(note that to run this script you need to install the full impacket suite, since it imports modules from the impacket suite): https://github.com/fortra/impacket/blob/master/examples/psexec.py
+2. You can also try the python implementation from the impacket suite(note that to run this script you need to install the full impacket suite, since it imports modules from the impacket suite): https://github.com/fortra/impacket/blob/master/examples/psexec.py; using this script usally doesn't trigger the AV, meaning that you can establish a "stable" shell with the target.
 
 3. Alternatively to the techinque explained in this link, you can also perform psexec from metasploit using these modules:
 (note that using metasploit modules will likely trigger any AV/EDR/firewall)
