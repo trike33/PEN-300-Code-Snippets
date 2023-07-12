@@ -179,4 +179,19 @@ End Sub
 So if our attack was successful we must recieve first a request for the amsi.txt file and then, secondly a request for our run.ps1 file.
 ```
 
-As previously mentioned the Add-Type compilation leaves many artifacts behind and those artifacts are written to disk. Since we want to be as stealthier as posible, we will use an in-memory powershell shellcode runner. Here is one: 
+As previously mentioned the Add-Type compilation leaves many artifacts behind and those artifacts are written to disk. Since we want to be as stealthier as posible, we will use an in-memory powershell shellcode runner. Here is one: https://github.com/trike33/PEN-300-Code-Snippets/blob/main/powershell_reflection_shellcoderunner.ps1
+
+This powershell shellcode runner its perfect for us! Because if we chain it with the previously implemented AMSI bypass we will have a shell that resides fully in memory.
+
+**IMPORTANT THING TO REMEMBER WHEN EXECUTING A MALICIOUS MACRO:**
+
+It is recommended to use the "prependmigrate=true" meterpreter option in order to have an stable shell. Since to execute our dropper we will spawn a cmd.exe process as a child process of WINWORD.exe, meaning that some AV/EDR will notice this an kill our dropper.
+
+Here is what the prependmigrate option does:
+
+```
+PrependMigrate             false                      yes       Spawns and runs shellcode in new process
+```
+(In a nutshell it spawns our shellcode in another process)
+
+Additionally keep in mind that our shellcode must be for 32-bits -> very important, if we use x64 we won't get any shell
