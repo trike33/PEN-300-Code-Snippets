@@ -56,6 +56,7 @@ PS C:\> Invoke-WmiMethod -Class Win32_Process -Name Create -ArgumentList 'notepa
 
 5. Python implementation(empire) of this WMI technique: https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_wmi.py
 6. Python implementation of this technique: https://github.com/fortra/impacket/blob/master/examples/wmiexec.py
+7. To use WMI through WinRM you can use this [script](https://github.com/bohops/WSMan-WinRM/blob/master/SharpWSManWinRM.cs).
 
 **DCOM(Windows Firewall will block this technique by default.):** 
 
