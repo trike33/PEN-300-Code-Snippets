@@ -32,7 +32,8 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 
 (keep in mind the LocalAccountTokenFilterPolicy)
 
-(DCOM comunications must be available meaning that the port 135 TCP must be open, in addtion to being able to communicate thourgh RPC via port 135 TCP)
+(DCOM comunications must be available meaning that the port 135 TCP must be open, in addtion to being able to communicate thourgh RPC via port 135 TCP, port 445 TCP and the WinMgmt service to be active and accessible. Important thing to mention this a "noisy" technique since requries access to 3 ports: 135/TCP, 445/TCP and the port specified to connect with WinMgmt)
+
 1. Using wmic.exe -> https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
 
 2. Using powershell:
@@ -77,13 +78,17 @@ You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/i
 
 **SMBEXEC:**
 
+(keep in mind the LocalAccountTokenFilterPolicy). This technique is kinda stealthy because it does not write any file to disk.  
+
 ```
 ~# impacket-smbexec trike@192.168.1.1
 ```
 
 **Through Task Scheduler:**
 
-Communication thourgh port 445 TCP. This techique abuses atsvc to execute one single command at time.
+(keep in mind the LocalAccountTokenFilterPolicy)
+
+Communication thourgh port 445 TCP. This techique abuses atsvc to execute one single command at time. https://github.com/fortra/impacket/blob/master/examples/atexec.py
 
 https://github.com/fortra/impacket/blob/master/examples/smbexec.py
 
