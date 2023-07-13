@@ -79,7 +79,9 @@ You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/i
 
 **SMBEXEC:**
 
-(keep in mind the LocalAccountTokenFilterPolicy). This technique is kinda stealthy because it does not write any file to disk.  
+It works by creating a new service on the victim(which will likely trigger AV) for each command we execute, then it writes the output file inside an SMB share(usually C$), then reads the output file from the SMB share and displays it to you. So it is pretty noisy, but although it is worth giving it a try since it can reward you with remote code execution. For more info about how it works review this [blog](https://u0041.co/blog/post/2).
+
+(keep in mind the LocalAccountTokenFilterPolicy). Communication happens through port 445/TCP. This technique is kinda stealthy because it does not write any file to disk.  
 
 ```
 ~# impacket-smbexec trike@192.168.1.1
