@@ -53,10 +53,17 @@ PS C:\> Invoke-WmiMethod -Class Win32_Process -Name Create -ArgumentList 'notepa
 4. Deep to WMI [here](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf).
 
 5. Python implementation(empire) of this WMI technique: https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_wmi.py
+6. Python implementation of this technique: https://github.com/fortra/impacket/blob/master/examples/wmiexec.py
 
 **DCOM(Windows Firewall will block this technique by default.):** 
 
 1. https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/
+
+You can also use impacket implementation:  https://github.com/fortra/impacket/blob/master/examples/dcomexec.py
+
+```
+~# impacket-dcomexec trike@192.168.1.1
+```
 
 **PSRemoting:(Relies on WinRM and WinRS)** 
 
@@ -67,6 +74,22 @@ PS C:\> Invoke-WmiMethod -Class Win32_Process -Name Create -ArgumentList 'notepa
 You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/invoke-wmimethod.html), which "Invoke-WmiMethod" works under Windows Management Instrumentation(WMI), therefore uses only DCOM. As an alternative you can use [Invoke-CimMethod](https://ss64.com/ps/invoke-cimmethod.html), which works under both DCOM and WinRM.
 
 3. Python implementation of [Invoke-PSRemoting](https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/lateral_movement/invoke_psremoting.py).
+
+**SMBEXEC:**
+
+```
+~# impacket-smbexec trike@192.168.1.1
+```
+
+**Through Task Scheduler:**
+
+Communication thourgh port 445 TCP. This techique abuses atsvc to execute one single command at time.
+
+https://github.com/fortra/impacket/blob/master/examples/smbexec.py
+
+```
+~# impacket-atexec trike@192.168.1.1 systeminfo
+```
 
 **Weaponization of this techniques(C# script):** https://github.com/0xthirteen/SharpMove
 
