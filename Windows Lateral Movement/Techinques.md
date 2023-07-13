@@ -1,4 +1,10 @@
 **PsExec:** https://www.ired.team/offensive-security/lateral-movement/lateral-movement-with-psexec
+(keep in mind the LocalAccountTokenFilterPolicy)
+
+```
+#From an admin CMD
+C:\> reg add HKLM\Software\Microsoft\Windows\	CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy /t 	REG_DWORD /d 1 /f
+```
 
 1. PsExec is also available from SysInternals, however it will create the "PSExecSVC" service which will trigger the AV.(https://learn.microsoft.com/en-us/sysinternals/downloads/psexec)
 
@@ -23,6 +29,8 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 6. You can go even further reviewing this execellent repository about fileless lateral movement: https://github.com/Mr-Un1k0d3r/SCShell
 
 **WMI(can use both DCOM and WinRM transport protocols):** 
+
+(keep in mind the LocalAccountTokenFilterPolicy)
 
 (DCOM comunications must be available meaning that the port 135 TCP must be open, in addtion to being able to communicate thourgh RPC via port 135 TCP)
 1. Using wmic.exe -> https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
