@@ -2,7 +2,7 @@
 
 Via XLS transform. Proof of concept to execute an additional cmd.exe:
 
-Content of test.xls:
+Content of test.xsl:
 
 ```
 <?xml version='1.0'?>
