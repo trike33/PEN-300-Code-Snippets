@@ -38,6 +38,7 @@ If you want to perform more evasion you can create a custom EXE and specify it i
 1. Using wmic.exe -> https://www.ired.team/offensive-security/lateral-movement/t1047-wmi-for-lateral-movement
 
 2. Using powershell:
+
 You can use this command to execute a new process on localhost;
 
 ```
@@ -80,9 +81,11 @@ You can search this link for info about [Invoke-WmiMethod](https://ss64.com/ps/i
 
 **SMBEXEC:**
 
-It works by creating a new service on the victim(which will likely trigger AV) for each command we execute, then it writes the output file inside an SMB share(usually C$), then reads the output file from the SMB share and displays it to you. So it is pretty noisy, but although it is worth giving it a try since it can reward you with remote code execution. For more info about how it works review this [blog](https://u0041.co/blog/post/2).
+It works by creating a new service on the victim(which will likely trigger AV) for each command we execute, then it writes the output file inside an SMB share(usually C$), then reads the output file from the SMB share and displays it to you. After displaying the output, it removes the "output" file. So it is pretty noisy, but although it is worth giving it a try since it can reward you with remote code execution. For more info about how it works review this [blog](https://u0041.co/blog/post/2).
 
-(keep in mind the LocalAccountTokenFilterPolicy). Communication happens through port 445/TCP. This technique is kinda stealthy because it does not write any file to disk.  
+(keep in mind the LocalAccountTokenFilterPolicy). Communication happens through port 445/TCP.  
+
+https://github.com/fortra/impacket/blob/master/examples/smbexec.py
 
 ```
 ~# impacket-smbexec trike@192.168.1.1
@@ -94,8 +97,6 @@ It works by creating a new service on the victim(which will likely trigger AV) f
 
 Communication thourgh port 445 TCP. This techique abuses atsvc to execute one single command at time. https://github.com/fortra/impacket/blob/master/examples/atexec.py
 
-https://github.com/fortra/impacket/blob/master/examples/smbexec.py
-
 ```
 ~# impacket-atexec trike@192.168.1.1 systeminfo
 ```
@@ -104,7 +105,7 @@ https://github.com/fortra/impacket/blob/master/examples/smbexec.py
 
 **RDP(C# Script):** https://github.com/0xthirteen/SharpRDP
 
-**RDP Thieft(C# DLL injector + DLL):** https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Lateral%20Movement/RDP%20Thief.cs
+**RDP Thief(C# DLL injector + DLL):** https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Lateral%20Movement/RDP%20Thief.cs
 
 This script searches for running instances of mstsc.exe and then dump the credentials stored, also uses this [malicious DLL](https://github.com/0x09AL/RdpThief).
 
