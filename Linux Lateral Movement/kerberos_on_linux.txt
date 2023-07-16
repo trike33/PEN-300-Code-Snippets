@@ -7,8 +7,12 @@ kvno-> to request TGS, usage example: kvno MSSQLSvc/DC01.corp1.com:1433
 
 kinit trike@CONTOSO.COM -k -t /tmp/trike.keytab   -> using a keytab file to request a TGT
 
-kinit -R -> renewing a ticket
+kinit -R -> renewing all the tickets without entering the password
 
 kerberos configuration file -> /etc/krb5.conf     -> to reconfigure this file easily: dpkg-reconfigure krb5-config
 
-scp user@target:/home/user/example.txt
+scp user@target:/home/user/example.txt /tmp/example.txt
+
+Using a keytab file to request a TGT: 
+
+~# kinit administrator@contoso.com -k -t /tmp/trike.keytab
