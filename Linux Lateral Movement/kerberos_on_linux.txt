@@ -14,5 +14,4 @@ kerberos configuration file -> /etc/krb5.conf     -> to reconfigure this file ea
 scp user@target:/home/user/example.txt /tmp/example.txt
 
 Using a keytab file to request a TGT: 
-
 ~# kinit administrator@contoso.com -k -t /tmp/trike.keytab
