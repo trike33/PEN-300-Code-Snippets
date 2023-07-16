@@ -2,15 +2,17 @@ Under the example folder, there is a TestClass.cs that shows where and how to pl
 
 (Note that the .hta file also contains a kickout() function that is used for bypass AMSI)
 
-There is also a .js file that show how your
+There is also a .js file that show how your converted JScript file should look like.
 
 **Writing code to DotNetToJScript:**
 
 First we will navigate to the TestClass.cs file under the ExampleAssembly project. This ExampleAssembly will get compiled into a DLL. Once we have our code written under the "public TestClass()", we will switch from Debug to Release and build the entire solution(both DotNetToJScript and ExampleAssembly).
 
-Now in order to convert our DLL into a .js, we need to grab some things: we will grab DotNetToJScript.exe and NDesk.Options.dll from the DotNetToJScript project and copy them to the C:\Tools\ folder. Then we must also grab the ExampleAssembly.dll from the ExampleAssembly project and copy it to the C:\Tools folder.
+Now in order to convert our DLL into a .js, we need to grab some things: 
 
-Next, we will throw this command from a CMD and under the C:\Tools\ folder:
+1. We will grab DotNetToJScript.exe and NDesk.Options.dll from the DotNetToJScript project and copy them to the C:\Tools\ folder.
+2. Then we must also grab the ExampleAssembly.dll from the ExampleAssembly project and copy it to the C:\Tools folder.
+3. Next, we will throw this command from a CMD and under the C:\Tools\ folder:
 
 ```
 C:\Tools> DotNetToJScript.exe ExampleAssembly.dll --lang=Jscript --ver=v4 -o demo.js
