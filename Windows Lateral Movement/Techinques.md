@@ -15,7 +15,7 @@ C:\> reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v L
 (note that using metasploit modules will likely trigger any AV/EDR/firewall)
 
 ```
-windows/smb/psexec   -> The exploit/windows/smb/psexec module is an exploit module. Exploit modules allow the operator to set a payload. Payloads such as windows/exec support specifying arbitrary commands to be executed as a payload.(net user ankylo Ankylo33_ /add /y, for example)
+windows/smb/psexec   -> The exploit/windows/smb/psexec module is an exploit module. Exploit modules allow the operator to set a payload. Payloads such as windows/exec support specifying arbitrary commands to be executed as a payload.(net user trike Trike33_ /add /y, for example)
 
 auxiliary/scanner/smb/psexec_loggedin_users -> lists all logged on users by querying the registry hives
 ```
