@@ -1,6 +1,8 @@
 **IMPORTANT NOTE:** ALL THIS HAVE TO BE PERFORMED FROM A POWERSHELL SESSION
 
-1st Enumeration with PowerView, this will return us that the iisvc account has the msds-allowedtodelegateto property set to: "MSSQLSvc/cdc01.contoso.com:1433"
+(The msds-allowedtodelegateto property from the frontend service is what controls the delegation)
+
+1st Enumeration with PowerView, this will return us that the iisvc account(frontend service) has the msds-allowedtodelegateto property set to: "MSSQLSvc/cdc01.contoso.com:1433"(backend service)
 	
 ```Get-DomainUser -TrustedToAuth```
 
