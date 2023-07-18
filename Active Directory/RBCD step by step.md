@@ -1,6 +1,6 @@
 **IMPORTANT NOTE:** ALL THIS PROCESS MUST BE PERFORMED FROM A POWERSHELL CONSOLE
 
-(RCBD stands for Resource-Based Constrained Delegation)
+(RCBD stands for Resource-Based Constrained Delegation. On RBCD, the msds-allowedtoactonbehalfofotheridentity property controls delegation from the backend service.)
 
 1st In order to perform the attack, we already need a computer configured with RBCD(with the msds-allowedtoactonbehalfofotheridentity writed), or we could abuse an ACL like GenericWrite in order to write the msds-allowedtoactonbehalfofotheridentity property.(in this PoC it the backend machine will be APPSRV01, the user that have write perssions will be contoso\trike and the fronted SPN will be contoso\mycomputer$)
 
