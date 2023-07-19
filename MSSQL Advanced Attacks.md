@@ -1,3 +1,13 @@
+**MSSQL Enumeration:**
+
+In order to locate instances of MSSQL servers, we can run a network scan(port 1433/TCP) or if we are in an active directory enviromet we can query our domain DC for MSSQL SPNs. To do so, we can use the native "setspn" tool, or with [GetUsersSPNs.ps1]( https://github.com/nidem/kerberoast/blob/master/GetUserSPNs.ps1).
+
+```
+1. C:\> setspn -T corp1 -Q MSSQLSvc/*
+
+2. PS C:\> .\GetUsersSPNs.ps1 
+```
+
 **CONNECTION AND AUTHENTICATION TO THE SERVER:**
 
 Generally the easiest ones to use are impacket-mssqlclient(to connect from linux) and the sqlcmd utility(to connect from windows). When using impacket-mssqlclient with active directory domain authentication don't forget the "-windows-auth" flag!
