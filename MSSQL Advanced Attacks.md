@@ -10,7 +10,21 @@ In order to locate instances of MSSQL servers, we can run a network scan(port 14
 
 **CONNECTION AND AUTHENTICATION TO THE SERVER:**
 
+Authentication to an MSSQL server, occurs in 2 stages:
+  1. A login is requried. This login can be through Kerberos, or via an SQL server login which is performed with local accounts on each SQL     server.
+  2. After a successfull login, the login is mapped to a database user account.
+
+An example of this is that we may perform a SQL server login with the "sa" account, which is mapped to the "dbo" user account. However, if we perform a login with an account that doesn't has an SQL user account mapped, it will get mapped as the "guest" user. 
+
 Generally the easiest ones to use are impacket-mssqlclient(to connect from linux) and the sqlcmd utility(to connect from windows). When using impacket-mssqlclient with active directory domain authentication don't forget the "-windows-auth" flag!
+
+```
+1. impacket-mssqlclient DOMAIN/username:password@<target-ip> -windows-auth   -> use the -windows-auth flag only if you are using a Kerberos login
+
+~# impacket-mssqlclient -dc-ip 192.168.1.1 contoso.com/svc_sql:SqlTest123@<target-ip>
+
+2. C:\> sqlcmd -S <computer_name> -U <username> -P <password>
+```
 
 IMPORTANT: Mainly all commands specified in this document are meant to be thrown through an impacket-mssqlclient or sqlcmd shell.
 
@@ -46,9 +60,9 @@ EXECUTE AS LOGIN = sa
 
 Use this commands at this order:
 
-1st ```"EXEC sp_configure 'show advanced options', 1; RECONFIGURE; EXEC sp_configure 'xp_cmdshell', 1; RECONFIGURE;```
+1st ```EXEC sp_configure 'show advanced options', 1; RECONFIGURE; EXEC sp_configure 'xp_cmdshell', 1; RECONFIGURE;```
 
-2nd ```EXEC xp_cmdshell whoami```
+2nd ```EXEC xp_cmdshell "whoami"```
 
 **CODE EXECUTION ON A LINKED MSSQL SERVER:**
 
