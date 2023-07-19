@@ -21,9 +21,17 @@ Generally the easiest ones to use are impacket-mssqlclient(to connect from linux
 ```
 1. impacket-mssqlclient DOMAIN/username:password@<target-ip> -windows-auth   -> use the -windows-auth flag only if you are using a Kerberos login
 
-~# impacket-mssqlclient -dc-ip 192.168.1.1 contoso.com/svc_sql:SqlTest123@<target-ip>
+~# impacket-mssqlclient -dc-ip 192.168.1.1 contoso.com/svc_sql:"SqlTest123!"@192.168.1.2 -windows-auth -> the password is only SqlTest123!, this is an example of kerberos login
+
+~# ~# impacket-mssqlclient svc_sql:"SqlTest123!"@192.168.1.2 -> SQL server login
 
 2. C:\> sqlcmd -S <computer_name> -U <username> -P <password>
+
+C:\> sqlcmd -S appsrv01.contoso.com -U 'svc_sql' -P 'SqlTest123!' -> SQL server login
+
+C:\> sqlcmd -S 192.168.1.2 -U 'svc_sql' -P 'SqlTest123!' -> SQL server login
+
+C:\> sqlcmd -E appsrv01.contoso.com -> Kerberos login
 ```
 
 IMPORTANT: Mainly all commands specified in this document are meant to be thrown through an impacket-mssqlclient or sqlcmd shell.
