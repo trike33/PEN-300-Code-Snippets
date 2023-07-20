@@ -237,11 +237,26 @@ CREATE ASSEMBLY my_assembly FROM 0x4D5A900..... WITH PERMISSION_SET = UNSAFE;
 To list linked SQL servers(2 ways):
 
 ```
-exec sp_linkedservers;
+EXEC sp_linkedservers;
 
 SELECT * FROM sys.servers;
 ```
-For this example, assume that dc01 is the linked server. 
+
+Test query on the linked MSSQL server using the "OPENQUERY" statement. Unluckily, the "OPENQUERY" statement doesn't support executing stored procedures:
+
+```
+select version from openquery("dc01", 'select @@version as version');   -> DC01 is the linked server
+
+select version from openquery("dc01", 'select system_user');
+```
+
+For this example, assume that DC01 is the linked server. When executing "RECONFIGURE" statements on a remote server, the created link must be configured with [outbound RPC](https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2008-r2/ms186839(v=sql.105)?redirectedfrom=MSDN). If "RPC out" is not enabled, we can enable it using the ["SP_SERVEROPTION"](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-serveroption-transact-sql?view=sql-server-ver15) statement:
+
+```
+1. EXEC sp_serveroption 'LOCALHOST\instance', 'rpc', true;
+
+2. EXEC sp_serveroption 'LOCALHOST\instance', 'rpc out', true;
+```
 
 ```
 1st EXEC (sp_configure 'show advanced options', 1; RECONFIGURE;) AT dc01
