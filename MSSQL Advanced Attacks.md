@@ -94,7 +94,7 @@ Enumerating users that can be impersonated at a login level. It is important to 
 ```
 SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = 'IMPERSONATE';
 ```
-To impersonate(assuming you can impersonate the sa user):
+To impersonate at a login level use this statement(assuming you can impersonate the sa user):
 
 ```
 EXECUTE AS LOGIN = sa;
@@ -102,6 +102,17 @@ EXECUTE AS LOGIN = sa;
 
 *Impersonation at a user level:*
 
+In order to execute this attack, there are to prerequisites. First our user have been granted with impersonation. Second, in order to fully compromise a database server, the user we impersonate must be in a database that has the "TRUSTWORTHY" property set. If the database we impersonate on doesn't have the "TRUSTWORTHY" property, this doesn't necessarily lead to a server-wide sysadmin rolership.
+
+In our example the "guest" user has been granted with impersonation over the "dbo" user on the "msdb" database. Note that the "msdb" database is the only database which has the "TRUSTWORTHY" property set by default.
+
+Now, to impersonate we can use this statements:
+
+```
+1. use msdb;
+
+2. EXECUTE AS USER = 'dbo';
+```
 
 **CODE EXECUTION(through xp_cmdshell):**
 
