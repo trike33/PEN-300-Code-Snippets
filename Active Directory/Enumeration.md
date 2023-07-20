@@ -10,10 +10,10 @@ more or better information being gathered.
 Here are some useful PowerView commands:
 
 ```
-Search for ACL on our current user: 
+Search for ACEs(appliable to all of our domain user accounts) that our current user has: 
 Get-DomainUser | Get-ObjectAcl -ResolveGUIDs | Foreach-Object {$_ | Add-Member -NotePropertyName Identity -NotePropertyValue (ConvertFrom-SID $_.SecurityIdentifier.value) -Force; $_} | Foreach-Object {if ($_.Identity -eq $("$env:UserDomain\$env:Username")) {$_}}
 
-Search for ACL that our user has explicit access to:
+Search for ACEs(appliable to all of our domain groups) that our current user has:
 Get-DomainGroup | Get-ObjectAcl -ResolveGUIDs | Foreach-Object {$_ | Add-Member -NotePropertyName Identity -NotePropertyValue (ConvertFrom-SID $_.SecurityIdentifier.value) -Force; $_} | Foreach-Object {if ($_.Identity -eq $("$env:UserDomain\$env:Username")) {$_}}
 
 To apply additional access rights such as GenericAll, GenericWrite, or even DCSync:
