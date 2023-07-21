@@ -82,9 +82,6 @@ mimikatz # kerberos::golden /user:trike /domain:contoso.com /sid:S-1-5-21-260287
 ```
 (note that in the sid parameter we didn't specify the RID of the trike user, since mimikatz will automatically set our RID to 500 which equals to both local administrator and domain admin)
 
-**BRONZE TICKETS:**
-
-
 **DOMAIN CONTROLLER SYNCHRONIZATION:**
 
 This is an alternative way to get any domain user hash without dumping the entire NTDS.dit database. For this reason DcSync is way stealthier. 
