@@ -86,3 +86,15 @@ mimikatz # kerberos::golden /user:trike /domain:contoso.com /sid:S-1-5-21-260287
 
 
 **DOMAIN CONTROLLER SYNCHRONIZATION:**
+
+This is an alternative way to get any domain user hash without dumping the entire NTDS.dit database. For this reason DcSync is way stealthier. 
+
+This attack works because the domain controller recieving the request doesn't verify that the request came from a know domain controller, only that the SID has the appropiate permissions to do so. For this reason, if a domain admin sends a request to a domain controller, this will likely succeed. 
+
+We can perform this attack with mimikatz:
+
+```
+mimikatz # lsadump::dcsync /user:Administrator
+
+mimikatz # lsadump::dcsync /user:krbtgt
+```
