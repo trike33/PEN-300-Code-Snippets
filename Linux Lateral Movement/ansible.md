@@ -1,4 +1,4 @@
-Ansible configuration directory   -> /etc/ansible       /etc/ansible/hosts
+Ansible configuration directories   -> /etc/ansible   &    /etc/ansible/hosts
 
 2 primary ways to distribute commands:
 1. Via Ad-hoc commands, which are stand-alone shell commands to be executed on all the ansible victims machines. Examples:
