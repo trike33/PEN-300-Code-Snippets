@@ -37,6 +37,8 @@ Review its manual specified as comments at the first lines of the script, and th
 
 **UAC BYPASS IMPROVEMENT:**
 
+In order to perform an UAC bypass, we must be as a user who is in the local "Administrators" group.
+
 From powershell throw this commands:
 
 ```
