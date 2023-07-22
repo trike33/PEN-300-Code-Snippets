@@ -1,3 +1,5 @@
+This attack can create an attack vector where originally, there wasn't one.
+
 Steps:
 1st Add this text to the .ssh/config file of the user you want to hijack SSH sessions:
 Host *
