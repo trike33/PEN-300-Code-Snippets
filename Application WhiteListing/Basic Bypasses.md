@@ -1,5 +1,7 @@
 **TRUSTED FOLDERS:**
 
+AppLocker rules does not apply to the built-in local accounts such as Local System, Local Service, or Network Service. Neither they do apply to the IIS DefaultAppPool account.
+
 Default AppLocker rules only allows to execute programs located under these directories: C:\Program Files, C:\Program Files (x86), and C:\Windows.
 
 However there may be subdirectories under C:\Program Files, C:\Program Files (x86), or C:\Windows that may have write and executable permisions. To do so we will use [AccessChk](https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk)
