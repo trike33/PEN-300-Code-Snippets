@@ -14,6 +14,8 @@ Is LSA enabled?
 
 ```
 PS C:\windows\system32\inetsrv> Get-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name "RunAsPPL"
+
+If the Registry key "RunAsPPL" is set to 1 then LSA is enabled
 ```
 
 Are there any AppLocker rules in use?
