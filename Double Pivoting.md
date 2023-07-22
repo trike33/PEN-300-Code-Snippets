@@ -157,3 +157,10 @@ msf exploit(vsftpd_234_backdoor) > run
 ifconfig
 8.8.8.9
 ```
+
+**MITIGATIONS:**
+
+(I've write this mitigations down here, in case you have any problems using the solution explained so that you have an understanding of what could be happening. Also, credit to this blog: https://pentest.blog/explore-hidden-networks-with-double-pivoting/ for providing this mitigations).
+
+- Systems that contain multiple NICs and provide DMZ access should be removed from the existing network structure.
+- Systems in the DMZ structure should only be accessed over DMZ structures.
