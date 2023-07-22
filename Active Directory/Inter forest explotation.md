@@ -25,7 +25,7 @@ C:\> netdom trust <target_domain> /d:<source_domain> /enablesidhistory:yes
 
 Searching for an external domain group with an RID superior of 1000:
 
-PS C:\>  Get-DomainForeignGroupMember -Domain corp2.com  -> this will return us with external groups that our user forms part of
+PS C:\> Get-DomainForeignGroupMember -Domain corp2.com  -> this will return us with external groups that our user forms part of
 
 PS C:\> Get-DomainGroupMember -Identity "Administrators" -Domain corp2.com  -> this will return us with groups/users that form part of the built-in Administartors group
 
