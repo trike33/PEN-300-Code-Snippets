@@ -127,6 +127,7 @@ Discovered open port 22/tcp on 8.8.8.9
 ...
 ...
 ```
+Proxying traffic between 2 different proxies was posible because the proxyphains tool connects the proxy servers and transmits the connection end to end. Also note the "-sT" parameter on the nmap scans, indicating nmap to pass traffic through the proxy.
 
 *Compromising Victim 3:*
 
