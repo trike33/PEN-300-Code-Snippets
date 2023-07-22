@@ -1,4 +1,4 @@
-One of the easiest ways to enumerate an Active Directory enviroment is using [SharpHound](https://github.com/BloodHoundAD/SharpHound) ingestor, and 
+One of the easiest ways to enumerate an Active Directory enviroment is using [SharpHound.ps1](https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/SharpHound.ps1) ingestor or [SharpHound.exe](https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/SharpHound.exe), and 
 then viewing the results with [BloodHound](https://github.com/BloodHoundAD/BloodHound). 
 
 Alternatively, you can use [PowerView](https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerView/powerview.ps1) or windows built-in programs or with
@@ -40,4 +40,12 @@ To convert a SID: ConvertFrom-SID 'S-1-5-21-634106289-3621871093-708134407-1110'
 Enumerates users who are in groups outside of the user's domain: Get-DomainForeignUser
 
 Interforest trusts enumeration(corp2.com is the forest domain): Get-DomainTrust -Domain corp2.com
+```
+
+**ENUMERATION WITH SHARPHOUND:**
+
+Add this line at the end of SharpHound.ps1:
+
+```
+Invoke-SharpHound -CollectionMethod All
 ```
