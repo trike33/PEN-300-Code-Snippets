@@ -14,7 +14,7 @@
          }
 ```
 
-3. Now, we will use the [encoder.cs]() file to encrypt the shellcode that msfvenom originally generated.
+3. Now, we will use the [encoder.cs](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/ASPX%20Shellcode%20Runner/Encoder.cs) file to encrypt the shellcode that msfvenom originally generated.
 
 4. Finally, change the original shellcode for the encrypted one and add this decryption stub:
 
