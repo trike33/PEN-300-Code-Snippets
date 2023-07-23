@@ -94,6 +94,8 @@ To dump TGT and TGS:
 (Alternatively, we can append this line: Invoke-Mimikatz -Command "sekurlsa::logonpasswords"  at the end of the Invoke-Mimikatz.ps1 script, so that when you use the IEX sekurlsa::logonpasswords gets automatically executed and you don't have to fight with double quotes and backticks).
 ```
 
+*Explanation of the backticks*: We must first quote on the -Command command line parameter, but the mimikatz command must also be itself in quotes. Because of that, we need to escape the inner quotes with a backtick character.
+
 3rd method(using [MiniDump.cs](https://github.com/trike33/PEN-300-Code-Snippets/blob/main/Windows%20Credentials/MiniDump.cs)):
 
 Using this method we will create a dump file, which is a snapshot of a given process.
