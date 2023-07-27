@@ -7,8 +7,7 @@ easier scenario for an attacker.
 
 This type of delegation involves the use of 2 extensions of kerberos, the S4U2Self and S4U2Proxy. What differs from unconstrained delegation is that the computer/user object 
 configured with constrained delegation(appearance of the msds-allowedtodelegateto property) can only use its recieved TGT to authenticate to the SPN specified in the 
-"msds-allowedtodelegateto" on the frontend service property. This is obiously a harder scenario for an attacker, but it is still exploitable, what will vary will be the impact(can you get RCE on the 
-SPN specified in the msds-allowedtodelegateto property? If yes the impact would be the same as unconstrained delegation, if not you will only have access to that SPN).
+"msds-allowedtodelegateto" on the frontend service property. This is obiously a harder scenario for an attacker, but it is still exploitable, what will vary will be the impact.
 
 **RESOURCE-BASED CONSTRAINED DELEGATION(RBCD):**
 
