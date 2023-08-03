@@ -5,3 +5,5 @@ This repository contains the most important scripts that I wrote and used(with a
 This repository is for educational purposes only and all the scripts attached are provided without any form of warrannty.
 
 OSEP course link: https://www.offsec.com/courses/pen-300/
+
+Using this repository in the OSEP exam, I managed to get 13 flags(local.txt and proof.txt) plus the secret.txt, which do a total of 14 flags.
